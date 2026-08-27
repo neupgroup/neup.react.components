@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/component/ui/avatar';
 
-export interface HeaderUserbarProps extends HTMLAttributes<HTMLDivElement> {
+export interface UserbarProps extends HTMLAttributes<HTMLDivElement> {
   displayName: string;
   displayImage?: string | null;
   neupid: string;
@@ -36,15 +36,27 @@ function getAvatarColor(displayName: string, neupid: string): string {
   return avatarColors[(hash >>> 0) % avatarColors.length];
 }
 
-export function HeaderUserbar({
+function normalizeDisplayImage(displayImage?: string | null): string | undefined {
+  const image = displayImage?.trim();
+  if (!image) return undefined;
+
+  if (/^(https?:|data:|blob:|\/\/)/i.test(image) || image.startsWith('/')) {
+    return image;
+  }
+
+  return `/${image}`;
+}
+
+export function Userbar({
   displayName,
   displayImage,
   neupid,
   className,
   ...props
-}: HeaderUserbarProps) {
+}: UserbarProps) {
   const name = displayName.trim() || 'User';
   const avatarColor = getAvatarColor(displayName, neupid);
+  const imageSrc = normalizeDisplayImage(displayImage);
 
   return (
     <div
@@ -60,10 +72,13 @@ export function HeaderUserbar({
         </p>
       </div>
       <Avatar className="h-8 w-8 transition-shadow duration-200 group-hover:ring-1 group-hover:ring-foreground/10">
-        <AvatarImage src={displayImage ?? undefined} alt={name} />
-        <AvatarFallback style={{ backgroundColor: avatarColor, color: '#fff' }}>
-          {getInitials(displayName, neupid)}
-        </AvatarFallback>
+        {imageSrc ? (
+          <AvatarImage className="visible" src={imageSrc} alt={name} />
+        ) : (
+          <AvatarFallback style={{ backgroundColor: avatarColor, color: '#fff' }}>
+            {getInitials(displayName, neupid)}
+          </AvatarFallback>
+        )}
       </Avatar>
     </div>
   );

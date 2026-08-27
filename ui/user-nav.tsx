@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { HeaderUserbar } from '@/component/elements/header.userbar';
+import { Userbar } from '@/component/elements/userbar';
 import { useSession } from '@/core/providers/session';
 
 export function UserNav() {
@@ -12,7 +12,7 @@ export function UserNav() {
 
   return (
     <Link href="/profile" aria-label="Open profile">
-      <HeaderUserbar
+      <Userbar
         displayName={displayName}
         displayImage={user?.displayImage}
         neupid={secondaryText ?? ''}
