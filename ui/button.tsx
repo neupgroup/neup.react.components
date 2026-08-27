@@ -112,24 +112,24 @@ import { cn } from "@/core/utils"
  * ::end
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "border border-primary/20 bg-primary/10 text-primary hover:bg-primary/25 hover:text-primary active:bg-primary/35",
+        default: "border border-primary/20 bg-primary/10 text-primary hover:border-primary/40 hover:bg-primary/25 hover:text-primary active:border-primary/60 active:bg-primary/35",
         primary: "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 active:bg-destructive/80",
         outline:
-          "border border-primary/25 bg-transparent text-primary hover:bg-primary/10 hover:text-primary active:bg-primary/20",
+          "border border-primary/25 bg-transparent text-primary hover:border-primary/40 hover:bg-primary/10 hover:text-primary active:border-primary/60 active:bg-primary/20",
         secondary:
-          "border border-primary/20 bg-primary/10 text-primary hover:bg-primary/25 hover:text-primary active:bg-primary/35",
+          "border border-primary/20 bg-primary/10 text-primary hover:border-primary/40 hover:bg-primary/25 hover:text-primary active:border-primary/60 active:bg-primary/35",
         tertiary:
-          "border border-primary/25 bg-transparent text-primary hover:bg-primary/10 hover:text-primary active:bg-primary/20",
+          "border border-primary/25 bg-transparent text-primary hover:border-primary/40 hover:bg-primary/10 hover:text-primary active:border-primary/60 active:bg-primary/20",
         plain:
           "border border-transparent bg-transparent text-foreground hover:bg-primary/10 hover:text-primary active:bg-primary/20 active:text-primary",
         destructiveTertiary:
-          "border border-destructive/25 bg-transparent text-destructive hover:bg-destructive/10 hover:text-destructive active:bg-destructive/20",
+          "border border-destructive/25 bg-transparent text-destructive hover:border-destructive/40 hover:bg-destructive/10 hover:text-destructive active:border-destructive/60 active:bg-destructive/20",
         ghost: "hover:bg-accent hover:text-accent-foreground active:bg-accent/80",
         link: "text-primary underline-offset-4 hover:underline",
       },
