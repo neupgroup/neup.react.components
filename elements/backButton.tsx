@@ -8,7 +8,7 @@ Reusable back navigation button with support for app-relative, cross-app, absolu
 
 ::public
 
-Pass `backsTo` as `/path`, `appname::/path`, or an absolute URL. Pass one or more comma-separated query parameter names through `withParameter` to copy their current values to the destination.
+Pass `backsTo` as `/path`, `appname::/path`, or an absolute URL. `selectedServer` is always copied when present. Pass one or more comma-separated query parameter names through `withParameter` to copy additional current values to the destination.
 
 ::public end
 
@@ -50,6 +50,7 @@ function getParameterNames(withParameter?: string | string[]) {
     return values
         .flatMap((value) => value.split(','))
         .map((value) => value.trim())
+        .concat('selectedServer')
         .filter(Boolean);
 }
 
@@ -99,8 +100,6 @@ function resolveDestination(
     } else if (!isAbsolute) {
         href = withBasePath(href, INTERNAL_BASE_PATH);
     }
-
-    if (!withParameter) return { href, rawNavigation: hasAppPrefix || isAbsolute };
 
     const url = new URL(href, 'https://back-button.local');
     for (const parameterName of getParameterNames(withParameter)) {
