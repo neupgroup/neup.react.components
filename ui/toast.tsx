@@ -357,13 +357,41 @@ const toastConveyClasses: Record<ToastConvey, string> = {
   info:
     'bg-gradient-to-r from-blue-50/45 via-white/80 to-white/95 text-blue-950',
   none:
-    'bg-background/95 text-foreground',
+    'bg-gradient-to-r from-blue-50/45 via-white/80 to-white/95 text-blue-950',
+}
+
+const toastConveyBackgrounds: Record<ToastConvey, string> = {
+  danger:
+    'linear-gradient(to right, rgba(254, 242, 242, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+  dangerous:
+    'linear-gradient(to right, rgba(254, 242, 242, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+  warning:
+    'linear-gradient(to right, rgba(255, 247, 237, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+  success:
+    'linear-gradient(to right, rgba(236, 253, 245, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+  info:
+    'linear-gradient(to right, rgba(239, 246, 255, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+  none:
+    'linear-gradient(to right, rgba(239, 246, 255, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+}
+
+const toastConveyTextColors: Record<ToastConvey, string> = {
+  danger: '#450a0a',
+  dangerous: '#450a0a',
+  warning: '#431407',
+  success: '#052e16',
+  info: '#172554',
+  none: '#172554',
 }
 
 function getToastConvey(
   convey: ToastConvey | undefined,
   state: ToastState | undefined
 ): ToastConvey {
+  if (convey === 'none') {
+    return 'info'
+  }
+
   if (convey) {
     return convey
   }
@@ -535,6 +563,9 @@ function VisualToast({
         className
       )}
       style={{
+        background: toastConveyBackgrounds[toastConvey],
+        color: toastConveyTextColors[toastConvey],
+
         /*
          * Keep the front above everything.
          */
@@ -597,7 +628,9 @@ function VisualToast({
        * --------------------------------------------------------------
        */}
       <div className="flex min-w-0 items-start gap-3">
-        <div className="mt-0.5 shrink-0">
+        <div
+          className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] p-1.5"
+        >
           {icon ??
             getStateIcon(
               state

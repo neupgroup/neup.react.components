@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import CodeRevolve from '#/components/animation/CodeRevolve';
+import CrossMark from '#/components/animation/CrossMark';
 import Download from '#/components/animation/Download';
 import TickMark from '#/components/animation/TickMark';
 import Upload from '#/components/animation/Upload';
@@ -62,6 +63,7 @@ export type IconProps = AnimatedIconProps | GifIconProps | StaticIconProps;
 
 const animations: Record<string, AnimationComponent> = {
   coderevolve: CodeRevolve,
+  crossmark: CrossMark,
   download: Download,
   tickmark: TickMark,
   upload: Upload,

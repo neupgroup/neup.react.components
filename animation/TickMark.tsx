@@ -51,7 +51,7 @@ const animationStyles = `
 export const TickMark = React.forwardRef<HTMLDivElement, TickMarkProps>(
   (
     {
-      size = 32,
+      size = 40,
       label = 'Complete',
       className,
       style,
@@ -83,8 +83,8 @@ export const TickMark = React.forwardRef<HTMLDivElement, TickMarkProps>(
           data-neup-tick-mark
           aria-hidden="true"
           style={{
-            width: '94%',
-            height: '94%',
+            width: '100%',
+            height: '100%',
             display: 'grid',
             placeItems: 'center',
             borderRadius: '50%',
@@ -95,14 +95,14 @@ export const TickMark = React.forwardRef<HTMLDivElement, TickMarkProps>(
           <svg
             aria-hidden="true"
             viewBox="0 0 20 20"
-            style={{ width: '64%', height: '64%' }}
+            style={{ width: '72%', height: '72%' }}
           >
             <path
               data-neup-tick-mark-check
               d="M4.5 10.3 L8.3 14 L15.7 6.4"
               fill="none"
               stroke="var(--neup-tick-mark-color, #28a745)"
-              strokeWidth="2.8"
+              strokeWidth="3.2"
               strokeLinecap="round"
               strokeLinejoin="round"
               pathLength="24"
