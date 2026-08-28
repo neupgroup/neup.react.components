@@ -3,11 +3,13 @@
 
 # Allow these folders
 !element/
+!elements/
 !layout/
 !ui/
 
 # Allow everything inside them
 !element/**
+!elements/**
 !layout/**
 !ui/**
 

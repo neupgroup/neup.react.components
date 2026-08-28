@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '#/core/utils'
 
-type ButtonType = 'solid' | 'tinted' | 'outlined' | 'plain'
+type ButtonType = 'solid' | 'tinted' | 'outlined' | 'plain' | 'text'
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon'
 type ButtonConvey = 'danger' | 'warning' | 'success' | 'info' | 'none'
 
@@ -19,10 +19,10 @@ interface CommonButtonProps
 
 type ButtonProps = CommonButtonProps &
   ({
-    type?: Exclude<ButtonType, 'plain'>
+    type?: Exclude<ButtonType, 'plain' | 'text'>
     convey?: ButtonConvey
   } | {
-    type: 'plain'
+    type: 'plain' | 'text'
     convey?: never
   })
 
@@ -31,9 +31,10 @@ const buttonTypes: Record<ButtonType, string> = {
   tinted: 'border border-primary/20 bg-primary/10 text-primary hover:border-primary/40 hover:bg-primary/25 hover:text-primary active:border-primary/60 active:bg-primary/35',
   outlined: 'border border-primary/25 bg-transparent text-primary hover:border-primary/40 hover:bg-primary/10 hover:text-primary active:border-primary/60 active:bg-primary/20',
   plain: 'border border-transparent bg-transparent text-foreground hover:bg-primary/10 hover:text-primary active:bg-primary/20 active:text-primary',
+  text: 'border border-transparent bg-transparent text-foreground hover:bg-transparent hover:text-primary active:bg-transparent active:text-primary',
 }
 
-const conveyTypes: Record<Exclude<ButtonType, 'plain'>, Record<Exclude<ButtonConvey, 'none'>, string>> = {
+const conveyTypes: Record<Exclude<ButtonType, 'plain' | 'text'>, Record<Exclude<ButtonConvey, 'none'>, string>> = {
   solid: {
     danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
     warning: 'bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700',
@@ -74,10 +75,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     children,
     ...props
   }, ref) => {
+    const conveyClassName = convey !== 'none' && type !== 'plain' && type !== 'text'
+      ? conveyTypes[type as Exclude<ButtonType, 'plain' | 'text'>][convey as Exclude<ButtonConvey, 'none'>]
+      : undefined
     const buttonClassName = cn(
       'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
           buttonTypes[type],
-          convey !== 'none' && type !== 'plain' ? conveyTypes[type][convey] : undefined,
+          conveyClassName,
       buttonSizes[size],
       className,
     )
