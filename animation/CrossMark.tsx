@@ -79,6 +79,10 @@ const animationStyles = `
       animation-duration: .01ms !important;
     }
   }
+
+  [data-neup-icon-final-state] [data-neup-cross-mark-revolve] {
+    display: none !important;
+  }
 `;
 
 export const CrossMark = React.forwardRef<HTMLDivElement, CrossMarkProps>(
