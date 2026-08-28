@@ -30,14 +30,14 @@ export function Userbar({
 
   return (
     <div
-      className={`group flex w-fit items-center gap-2.5 rounded-full border border-transparent py-1 pl-4 pr-1 transition-all duration-200 ease-out hover:border-foreground/5 hover:bg-muted/90 hover:shadow-sm ${className ?? ''}`}
+      className={`group flex w-fit items-center gap-1.5 rounded-full border border-transparent py-1 pl-4 pr-0.5 transition-all duration-200 ease-out hover:border-foreground/5 hover:bg-muted/90 hover:shadow-sm ${className ?? ''}`}
       {...props}
     >
       <div className="hidden min-w-0 text-right sm:block">
         <p className="max-w-40 truncate text-sm font-medium leading-none transition-colors group-hover:text-foreground">
           {name}
         </p>
-        <p className="mt-1 max-w-40 truncate text-[13px] leading-none text-muted-foreground">
+        <p className="mt-0.5 max-w-40 truncate text-xs font-normal leading-tight text-muted-foreground">
           {neupid ? `@${neupid}` : null}
         </p>
       </div>
