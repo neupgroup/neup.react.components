@@ -31,7 +31,7 @@ const animationStyles = `
   @keyframes neup-download-arrow {
     0% {
       opacity: 0;
-      transform: translateY(-5px);
+      transform: translateY(-3px);
     }
 
     18% {
@@ -40,12 +40,12 @@ const animationStyles = `
 
     55% {
       opacity: 1;
-      transform: translateY(3px);
+      transform: translateY(2px);
     }
 
     70%, 100% {
       opacity: 0;
-      transform: translateY(6px);
+      transform: translateY(4px);
     }
   }
 
@@ -135,9 +135,9 @@ export const Download = React.forwardRef<HTMLDivElement, DownloadProps>(
           aria-hidden="true"
           style={{
             position: 'absolute',
-            top: 2 * scale,
-            width: 16 * scale,
-            height: 17 * scale,
+            top: 3 * scale,
+            width: 14 * scale,
+            height: 15 * scale,
             animation: `neup-download-arrow ${duration}ms cubic-bezier(.4, 0, .2, 1) infinite`,
             animationPlayState: paused ? 'paused' : 'running',
           }}
@@ -187,9 +187,9 @@ export const Download = React.forwardRef<HTMLDivElement, DownloadProps>(
           aria-hidden="true"
           style={{
             position: 'absolute',
-            bottom: 2 * scale,
-            width: 20 * scale,
-            height: 7 * scale,
+            bottom: 3 * scale,
+            width: 18 * scale,
+            height: 6 * scale,
             borderLeft: `${strokeWidth}px solid ${color}`,
             borderRight: `${strokeWidth}px solid ${color}`,
             borderBottom: `${strokeWidth}px solid ${color}`,
