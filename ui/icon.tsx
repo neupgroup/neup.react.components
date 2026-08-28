@@ -3,17 +3,31 @@
 import * as React from 'react';
 
 import Bell from '#/components/animation/Bell';
+import CloudSync from '#/components/animation/CloudSync';
 import CodeRevolve from '#/components/animation/CodeRevolve';
+import Connecting from '#/components/animation/Connecting';
 import Copy from '#/components/animation/Copy';
 import CrossMark from '#/components/animation/CrossMark';
+import CreateFile from '#/components/animation/CreateFile';
+import Deploy from '#/components/animation/Deploy';
+import Disconnected from '#/components/animation/Disconnected';
 import Download from '#/components/animation/Download';
+import Hide from '#/components/animation/Hide';
+import Info from '#/components/animation/Info';
+import Loading from '#/components/animation/Loading';
+import Lock from '#/components/animation/Lock';
 import Pending from '#/components/animation/Pending';
 import Play from '#/components/animation/Play';
 import Save from '#/components/animation/Save';
 import Send from '#/components/animation/Send';
+import Search from '#/components/animation/Search';
+import Show from '#/components/animation/Show';
 import Stop from '#/components/animation/Stop';
 import TickMark from '#/components/animation/TickMark';
+import Trash from '#/components/animation/Trash';
+import Unlock from '#/components/animation/Unlock';
 import Upload from '#/components/animation/Upload';
+import Warning from '#/components/animation/Warning';
 
 /*
 ::neup.documentation::icon-block
@@ -70,17 +84,31 @@ export type IconProps = AnimatedIconProps | GifIconProps | StaticIconProps;
 
 const animations: Record<string, AnimationComponent> = {
   bell: Bell,
+  cloudsync: CloudSync,
   coderevolve: CodeRevolve,
+  connecting: Connecting,
   copy: Copy,
   crossmark: CrossMark,
+  createfile: CreateFile,
+  deploy: Deploy,
+  disconnected: Disconnected,
   download: Download,
+  hide: Hide,
+  info: Info,
+  loading: Loading,
+  lock: Lock,
   pending: Pending,
   play: Play,
   save: Save,
   send: Send,
+  search: Search,
+  show: Show,
   stop: Stop,
   tickmark: TickMark,
+  trash: Trash,
+  unlock: Unlock,
   upload: Upload,
+  warning: Warning,
 };
 
 function normalizeAnimationName(name: string) {

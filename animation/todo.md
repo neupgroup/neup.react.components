@@ -26,7 +26,7 @@ folder.
 - [x] Verify that the current animation files are registered in
       `.neup/components/ui/icon.tsx` so they can be used through the named
       animation API.
-- [ ] Register each newly created animation in `.neup/components/ui/icon.tsx`
+- [x] Register each newly created animation in `.neup/components/ui/icon.tsx`
       as the remaining animation files are added.
 
 ## Existing animations to revise
@@ -39,7 +39,7 @@ folder.
       outline circle and retain the green tick animation.
 - [x] `CrossMark.tsx`: replace the filled red circle with a red revolving
       outline circle and retain the red cross animation.
-- [ ] `CodeRevolve.tsx`: use a grey revolving outline circle and grey code icon.
+- [x] `CodeRevolve.tsx`: use a grey revolving outline circle and grey code icon.
 
 ## Core action animations
 
@@ -55,30 +55,31 @@ folder.
 - [x] `Save.tsx`: grey floppy-disk save icon.
 - [x] `Send.tsx`: grey send/paper-plane icon.
 - [x] `Pending.tsx`: grey clock icon with a grey revolving outline circle.
-- [ ] `Warning.tsx`: orange warning triangle icon with an orange revolving
+- [x] `Warning.tsx`: orange warning triangle icon with an orange revolving
       outline circle.
-- [ ] `Loading.tsx`: blue spinning outline only, without a separate icon.
-- [ ] `Info.tsx`: blue information icon with a blue spinning/revolving outline.
-- [ ] `Deploy.tsx`: blue rocket icon with a blue revolving outline circle.
-- [ ] `Trash.tsx`: red trash icon with a red revolving outline circle.
-- [ ] `CreateFile.tsx`: blue file-with-plus icon with a blue revolving outline
+- [x] `Loading.tsx`: blue spinning outline only, without a separate icon.
+- [x] `Info.tsx`: blue information icon with a blue spinning/revolving outline.
+- [x] `Deploy.tsx`: blue rocket icon with a blue revolving outline circle and
+      an intended transition to `TickMark` on success.
+- [x] `Trash.tsx`: red trash icon with a red revolving outline circle.
+- [x] `CreateFile.tsx`: blue file-with-plus icon with a blue revolving outline
       circle.
-- [ ] `Connecting.tsx`: neutral link icon with a revolving outline circle.
-- [ ] `Disconnected.tsx`: orange link-plus-ban icon with an orange revolving
+- [x] `Connecting.tsx`: neutral link icon with a revolving outline circle.
+- [x] `Disconnected.tsx`: orange link-plus-ban icon with an orange revolving
       outline circle.
-- [ ] `CloudSync.tsx`: blue cloud-plus-upload icon with a blue revolving outline
+- [x] `CloudSync.tsx`: blue cloud-plus-upload icon with a blue revolving outline
       circle.
-- [ ] `Lock.tsx`: blue lock animation transitioning from open to locked, with
+- [x] `Lock.tsx`: blue lock animation transitioning from open to locked, with
       a blue revolving outline circle.
-- [ ] `Unlock.tsx`: blue lock animation transitioning from closed to open, with
+- [x] `Unlock.tsx`: blue lock animation transitioning from closed to open, with
       a blue revolving outline circle.
-- [ ] `Show.tsx`: eye animation transitioning from closed to open.
-- [ ] `Hide.tsx`: eye animation transitioning from open to closed.
-- [ ] `Search.tsx`: blue search icon with a blue revolving outline circle.
+- [x] `Show.tsx`: eye animation transitioning from closed to open.
+- [x] `Hide.tsx`: eye animation transitioning from open to closed.
+- [x] `Search.tsx`: blue search icon with a blue revolving outline circle.
 
 ## Integration and verification
 
-- [ ] Add all animation names to the icon registry and verify source-to-target
+- [x] Add all animation names to the icon registry and verify source-to-target
       transitions (`from`/`to`) continue to work.
 - [ ] Replace existing hard-coded animation usages with the new names where
       the new animations are intended to be used.
