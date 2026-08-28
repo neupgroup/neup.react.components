@@ -13,6 +13,7 @@ import Deploy from '#/components/animation/Deploy';
 import Deleted from '#/components/animation/Deleted';
 import Disconnected from '#/components/animation/Disconnected';
 import Download from '#/components/animation/Download';
+import DownloadWhite from '#/components/animation/DownloadWhite';
 import Hide from '#/components/animation/Hide';
 import Info from '#/components/animation/Info';
 import Loading from '#/components/animation/Loading';
@@ -26,6 +27,7 @@ import Searched from '#/components/animation/Searched';
 import Show from '#/components/animation/Show';
 import Stop from '#/components/animation/Stop';
 import TickMark from '#/components/animation/TickMark';
+import TickMarkWhite from '#/components/animation/TickMarkWhite';
 import Trash from '#/components/animation/Trash';
 import Unlock from '#/components/animation/Unlock';
 import Upload from '#/components/animation/Upload';
@@ -109,6 +111,7 @@ const animations: Record<string, AnimationComponent> = {
   deleted: Deleted,
   disconnected: Disconnected,
   download: Download,
+  download_white: DownloadWhite,
   hide: Hide,
   info: Info,
   loading: Loading,
@@ -122,6 +125,7 @@ const animations: Record<string, AnimationComponent> = {
   show: Show,
   stop: Stop,
   tickmark: TickMark,
+  tickmark_white: TickMarkWhite,
   trash: Trash,
   unlock: Unlock,
   upload: Upload,
