@@ -22,6 +22,7 @@ import Play from '#/components/animation/Play';
 import Save from '#/components/animation/Save';
 import Send from '#/components/animation/Send';
 import Search from '#/components/animation/Search';
+import Searched from '#/components/animation/Searched';
 import Show from '#/components/animation/Show';
 import Stop from '#/components/animation/Stop';
 import TickMark from '#/components/animation/TickMark';
@@ -117,6 +118,7 @@ const animations: Record<string, AnimationComponent> = {
   save: Save,
   send: Send,
   search: Search,
+  searched: Searched,
   show: Show,
   stop: Stop,
   tickmark: TickMark,
