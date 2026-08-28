@@ -1,278 +1,905 @@
-//to be remade
-
 'use client'
 
 import * as React from 'react'
-import * as ToastPrimitives from '@radix-ui/react-toast'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { CircleCheck, CircleX, Info, TriangleAlert, X } from 'lucide-react'
+
+import {
+  CircleCheck,
+  CircleX,
+  Info,
+  TriangleAlert,
+  X,
+} from 'lucide-react'
 
 import { cn } from '#/core/utils'
-import { useToast, type ToastState } from '#/core/hooks/useToast'
-import { Button, type ButtonProps } from '#/components/ui/button'
 
-const ToastProvider = ToastPrimitives.Provider
+import {
+  TOAST_EXIT_DURATION,
+  useToast,
+  type ToastState,
+  type ToasterToast,
+} from '#/core/hooks/useToast'
 
-const ToastViewport = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Viewport>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Viewport
-    ref={ref}
-    className={cn(
-      'fixed bottom-0 right-0 z-[9999] flex max-h-screen w-full flex-col gap-0 p-4 md:max-w-[420px]',
-      className
-    )}
-    {...props}
-  />
-))
-ToastViewport.displayName = ToastPrimitives.Viewport.displayName
+import {
+  Button,
+  type ButtonProps,
+} from '#/components/ui/button'
 
-const toastVariants = cva(
-  'group pointer-events-auto relative z-[10000] flex w-full items-start justify-between gap-4 overflow-hidden rounded-lg border bg-background/60 p-4 pr-10 shadow-lg backdrop-blur-2xl backdrop-saturate-150 transition-[transform,opacity,background-color,border-color,color] data-[state=closed]:animate-out data-[state=closed]:duration-600 data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full',
-  {
-    variants: {
-      state: {
-        info: 'border-primary/70 bg-background/60 text-foreground',
-        warning: 'border-amber-500/80 bg-amber-50/60 text-amber-950',
-        error: 'border-destructive/80 bg-red-50/60 text-red-950',
-        success: 'border-emerald-600/80 bg-emerald-50/60 text-emerald-950',
-      },
-    },
-    defaultVariants: {
-      state: 'info',
-    },
-  }
-)
+/*
+|--------------------------------------------------------------------------
+| Stack config
+|--------------------------------------------------------------------------
+*/
 
-type ToastProps = React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
-  VariantProps<typeof toastVariants> & {
-    state?: ToastState
-  }
+/*
+ * Keep the newest two cards in the interface. Older cards stay in the
+ * underlying group. Dismissal settings do not affect stack membership.
+ */
+const MAX_VISIBLE = 2
 
-const Toast = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Root>,
-  ToastProps
->(({ className, state, ...props }, ref) => (
-  <ToastPrimitives.Root
-    ref={ref}
-    className={cn(toastVariants({ state }), className)}
-    {...props}
-  />
-))
-Toast.displayName = ToastPrimitives.Root.displayName
+/*
+ * How much of the toast behind should peek out.
+ */
+const STACK_Y_OFFSET = 10
 
-const ToastAction = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Action>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Action
-    ref={ref}
-    className={cn(
-      'inline-flex h-8 shrink-0 items-center justify-center rounded-md border border-current/30 bg-transparent px-3 text-sm font-medium transition-colors hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
-      className
-    )}
-    {...props}
-  />
-))
-ToastAction.displayName = ToastPrimitives.Action.displayName
+/*
+|--------------------------------------------------------------------------
+| Icons
+|--------------------------------------------------------------------------
+*/
 
-function getStateIcon(state?: ToastState) {
-  const className = 'h-5 w-5'
+function getStateIcon(
+  state?: ToastState
+) {
+  const className =
+    'h-5 w-5'
 
   switch (state) {
     case 'warning':
-      return <TriangleAlert className={className} />
+      return (
+        <TriangleAlert
+          className={
+            className
+          }
+        />
+      )
+
     case 'error':
-      return <CircleX className={className} />
+    case 'danger':
+      return (
+        <CircleX
+          className={
+            className
+          }
+        />
+      )
+
     case 'success':
-      return <CircleCheck className={className} />
+      return (
+        <CircleCheck
+          className={
+            className
+          }
+        />
+      )
+
     case 'info':
     default:
-      return <Info className={className} />
+      return (
+        <Info
+          className={
+            className
+          }
+        />
+      )
   }
 }
 
-export function Toaster() {
-  const { toasts, dismiss, dismissByName } = useToast()
-  const [dismissingNames, setDismissingNames] = React.useState<Set<string>>(new Set())
-  const [dismissingIds, setDismissingIds] = React.useState<Set<string>>(new Set())
-  const toastGroups = Array.from(
-    toasts.filter((toast) => toast.open !== false).reduce((groups, toast) => {
-      const group = groups.get(toast.name) ?? []
-      group.push(toast)
-      groups.set(toast.name, group)
-      return groups
-    }, new Map<string, typeof toasts>()).entries()
+/*
+|--------------------------------------------------------------------------
+| ToastButton
+|--------------------------------------------------------------------------
+*/
+
+export const ToastButton =
+  React.forwardRef<
+    HTMLButtonElement,
+    ButtonProps
+  >(
+    (
+      props,
+      ref
+    ) => (
+      <Button
+        ref={ref}
+        {...props}
+      />
+    )
   )
+
+ToastButton.displayName =
+  'ToastButton'
+
+/*
+|--------------------------------------------------------------------------
+| Basic custom Toast primitives
+|--------------------------------------------------------------------------
+|
+| These have no Radix dependency.
+|
+| They are exported so you can still use:
+|
+| Toast
+| ToastTitle
+| ToastDescription
+| ToastClose
+| ToastAction
+|
+| elsewhere if needed.
+|
+*/
+
+export const Toast =
+  React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+  >(
+    (
+      {
+        className,
+        ...props
+      },
+      ref
+    ) => (
+      <div
+        ref={ref}
+        className={cn(
+          'relative',
+          className
+        )}
+        {...props}
+      />
+    )
+  )
+
+Toast.displayName = 'Toast'
+
+export const ToastTitle =
+  React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+  >(
+    (
+      {
+        className,
+        ...props
+      },
+      ref
+    ) => (
+      <div
+        ref={ref}
+        className={cn(
+          'text-sm font-semibold',
+          className
+        )}
+        {...props}
+      />
+    )
+  )
+
+ToastTitle.displayName =
+  'ToastTitle'
+
+export const ToastDescription =
+  React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+  >(
+    (
+      {
+        className,
+        ...props
+      },
+      ref
+    ) => (
+      <div
+        ref={ref}
+        className={cn(
+          'text-sm opacity-90',
+          className
+        )}
+        {...props}
+      />
+    )
+  )
+
+ToastDescription.displayName =
+  'ToastDescription'
+
+export const ToastAction =
+  React.forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+  >(
+    (
+      {
+        className,
+        ...props
+      },
+      ref
+    ) => (
+      <button
+        ref={ref}
+        type="button"
+        className={cn(
+          'inline-flex h-8 items-center justify-center rounded-md border border-current/20 px-3 text-sm font-medium transition-colors hover:bg-black/5',
+          className
+        )}
+        {...props}
+      />
+    )
+  )
+
+ToastAction.displayName =
+  'ToastAction'
+
+export const ToastClose =
+  React.forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+  >(
+    (
+      {
+        className,
+        children,
+        ...props
+      },
+      ref
+    ) => (
+      <button
+        ref={ref}
+        type="button"
+        aria-label="Close notification"
+        className={cn(
+          'absolute right-2 top-2 rounded-md p-1 text-current/60 transition-colors hover:bg-black/10 hover:text-current',
+          className
+        )}
+        {...props}
+      >
+        {children ?? (
+          <X className="h-4 w-4" />
+        )}
+      </button>
+    )
+  )
+
+ToastClose.displayName =
+  'ToastClose'
+
+/*
+|--------------------------------------------------------------------------
+| Provider
+|--------------------------------------------------------------------------
+|
+| Compatibility component.
+|
+| There is no context/provider required anymore.
+|
+*/
+
+export function ToastProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return <>{children}</>
+}
+
+/*
+|--------------------------------------------------------------------------
+| Viewport
+|--------------------------------------------------------------------------
+*/
+
+export const ToastViewport =
+  React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+  >(
+    (
+      {
+        className,
+        ...props
+      },
+      ref
+    ) => (
+      <div
+        ref={ref}
+        aria-live="polite"
+        aria-relevant="additions removals"
+        className={cn(
+          'pointer-events-none fixed bottom-0 right-0 z-[9999] flex max-h-screen w-full flex-col gap-3 p-4 md:max-w-[420px]',
+          className
+        )}
+        {...props}
+      />
+    )
+  )
+
+ToastViewport.displayName =
+  'ToastViewport'
+
+/*
+|--------------------------------------------------------------------------
+| Visual toast
+|--------------------------------------------------------------------------
+*/
+
+type VisualToastProps = {
+  toast: ToasterToast
+
+  index: number
+
+  dismissToast: (
+    id: string
+  ) => void
+}
+
+function VisualToast({
+  toast,
+  index,
+  dismissToast,
+}: VisualToastProps) {
+  const {
+    id,
+    title,
+    description,
+    state,
+    icon,
+    action,
+    actions = [],
+    className,
+    dismissesOn,
+    variant,
+  } = toast
+
+  const dismissAfter =
+    dismissesOn === null
+      ? undefined
+      : dismissesOn ?? 0
+
+  const canDismiss =
+    dismissesOn !== null
+
+  const isFront =
+    index === 0
+
+  const isExiting =
+    toast.open === false
+
+  const visibleActions =
+    actions.slice(0, 2)
+
+  /*
+   * IMPORTANT:
+   *
+   * The entry animation is only for a toast while it is first front. A toast
+   * that moves behind another toast must not replay it when promoted again.
+   */
+  const [isEntering, setIsEntering] =
+    React.useState(
+      () => index === 0
+    )
 
   React.useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (!isEntering) {
+      return
+    }
 
-    const overflow = toastGroups
-      .filter(([, group]) => group.length > 2)
-      .map(([name, group]) => ({
-        name,
-        count: group.length - 2,
-        ids: group.slice(2).map((toast) => toast.id),
-      }))
+    if (!isFront) {
+      setIsEntering(false)
+      return
+    }
 
-    window.sessionStorage.setItem('neup-toast-overflow', JSON.stringify(overflow))
-  }, [toastGroups])
+    const timeout = window.setTimeout(
+      () => {
+        setIsEntering(false)
+      },
+      TOAST_EXIT_DURATION
+    )
 
-  const dismissToastGroup = (name: string) => {
-    if (dismissingNames.has(name)) return
+    return () => {
+      window.clearTimeout(timeout)
+    }
+  }, [isEntering, isFront])
 
-    setDismissingNames((current) => new Set(current).add(name))
-    window.setTimeout(() => {
-      dismissByName(name)
-      setDismissingNames((current) => {
-        const next = new Set(current)
-        next.delete(name)
-        return next
-      })
-    }, 600)
-  }
+  React.useEffect(() => {
+    if (
+      !isFront ||
+      isExiting ||
+      typeof dismissAfter !== 'number' ||
+      dismissAfter <= 0 ||
+      !Number.isFinite(dismissAfter) ||
+      dismissAfter < 0
+    ) {
+      return
+    }
 
-  const dismissToast = (id: string) => {
-    if (dismissingIds.has(id)) return
+    const timeout = window.setTimeout(() => {
+      dismissToast(id)
+    }, Math.max(
+      dismissAfter * 1000 - TOAST_EXIT_DURATION,
+      0
+    ))
 
-    setDismissingIds((current) => new Set(current).add(id))
-    window.setTimeout(() => {
-      dismiss(id)
-      setDismissingIds((current) => {
-        const next = new Set(current)
-        next.delete(id)
-        return next
-      })
-    }, 600)
-  }
+    return () => {
+      window.clearTimeout(timeout)
+    }
+  }, [dismissAfter, dismissToast, id, isExiting, isFront])
+
+  /*
+   * Stack depth styling.
+   */
+  const translateY =
+    index *
+    STACK_Y_OFFSET
+
+  const widthReduction =
+    index === 0
+      ? 0
+      : index === 1
+        ? 16
+        : 28
+
+  const scale =
+    index === 0
+      ? 1
+      : index === 1
+        ? 0.98
+        : 0.96
+
+  const opacity =
+    index === 0
+      ? 1
+      : index === 1
+        ? 0.96
+        : 0.86
 
   return (
-    <ToastProvider>
-      <ToastViewport>
-        {toastGroups.map(([name, group]) => (
-          <div key={name} className={group.length > 1 ? 'flex flex-col items-end pt-7' : 'flex flex-col items-end'}>
-            <div className="grid w-full grid-cols-1">
-              {[...group].reverse().slice(-2).map(({ id, name: _name, title, description, action, icon, autoDismiss, state, onOpenChange: _onOpenChange, ...props }, index, stack) => (
-                <Toast
-                  key={id}
-                  {...props}
-                  onOpenChange={(open) => {
-                    if (!open) dismissToast(id)
-                  }}
-                  state={state}
-                  style={{
-                    gridArea: '1 / 1',
-                    opacity: dismissingNames.has(name) || dismissingIds.has(id) ? 0 : 1,
-                    transform: dismissingNames.has(name) || dismissingIds.has(id)
-                      ? 'translateX(110%)'
-                      : props.open === false
-                      ? undefined
-                      : index === stack.length - 1
-                        ? undefined
-                        : 'translateY(-28px) scale(0.975)',
-                    zIndex: index + 1,
-                    pointerEvents: index === stack.length - 1 ? 'auto' : 'none',
-                  }}
-                  duration={autoDismiss === false || autoDismiss === undefined ? Infinity : autoDismiss * 1000}
-                >
-                  <div className="flex min-w-0 items-start gap-3">
-                    <div className="mt-0.5 shrink-0">{icon ?? getStateIcon(state)}</div>
-                    <div className="grid min-w-0 gap-1">
-                      {title && <ToastTitle>{title}</ToastTitle>}
-                      {description && <ToastDescription>{description}</ToastDescription>}
-                      {props.open !== false && !dismissingNames.has(name) && !dismissingIds.has(id) && (autoDismiss === false || autoDismiss === undefined) && group.length >= 2 && index === stack.length - 1 && (
-                        <ToastDismissButton
-                          type="button"
-                          size="sm"
-                          className="mt-1 h-7 justify-self-start px-2 text-xs"
-                          onClick={() => dismissToastGroup(name)}
-                        >
-                          Dismiss ({group.length})
-                        </ToastDismissButton>
-                      )}
-                    </div>
-                  </div>
-                  {action}
-                  <ToastClose />
-                  {typeof autoDismiss === 'number' && (
-                    <div
-                      role="progressbar"
-                      aria-label="Toast dismiss countdown"
-                      aria-valuemin={0}
-                      aria-valuemax={autoDismiss}
-                      className="pointer-events-none absolute inset-x-0 bottom-0 h-1 origin-left bg-current/40"
-                      style={{ animation: `toast-progress ${autoDismiss}s linear forwards` }}
-                    />
-                  )}
-                </Toast>
-              ))}
-            </div>
-          </div>
-        ))}
-      </ToastViewport>
-    </ToastProvider>
+    <div
+      className={cn(
+        /*
+         * All cards occupy the exact same
+         * grid cell.
+         */
+        'col-start-1 row-start-1',
+
+        /*
+         * Actual card styling.
+         */
+        'relative flex items-start justify-between gap-4 overflow-hidden rounded-xl p-4 pr-10',
+
+        /*
+         * Apple-ish floating surface.
+         */
+        'border border-black/[0.04] backdrop-blur-2xl backdrop-saturate-150',
+
+        /*
+         * Movement between stack positions.
+         */
+        'transition-[transform,width,opacity,box-shadow]',
+        'ease-[cubic-bezier(0.22,1,0.36,1)]',
+
+        /*
+         * State colors.
+         */
+        (!state ||
+          state ===
+            'info') &&
+          'bg-background/95 text-foreground',
+
+        state ===
+          'warning' &&
+          'bg-amber-50/95 text-amber-950',
+
+        state ===
+          'error' &&
+          'bg-red-50/95 text-red-950',
+
+        state ===
+          'danger' &&
+          'bg-red-50/95 text-red-950',
+
+        state ===
+          'success' &&
+          'bg-emerald-50/95 text-emerald-950',
+
+        className
+      )}
+      style={{
+        /*
+         * Keep the front above everything.
+         */
+        zIndex:
+          100 - index,
+
+        /*
+         * Every visible card can receive its own dismiss action. The front
+         * card remains above the others, while the secondary card is
+         * interactive wherever it is exposed by the stack.
+         */
+        pointerEvents:
+          !isExiting
+            ? 'auto'
+            : 'none',
+
+        /*
+         * Card becomes narrower as it goes backward.
+         */
+        width: `calc(100% - ${widthReduction}px)`,
+
+        /*
+         * Exit always overrides normal stack position.
+         */
+        transform:
+          isExiting
+            ? 'translate3d(115%, 0, 0) scale(0.98)'
+            : `translate3d(0, ${translateY}px, 0) scale(${scale})`,
+
+        opacity:
+          isExiting
+            ? 0
+            : opacity,
+
+        boxShadow:
+          index === 0
+            ? '0 10px 35px rgba(15, 23, 42, 0.14)'
+            : index === 1
+              ? '0 6px 24px rgba(15, 23, 42, 0.10)'
+              : '0 4px 16px rgba(15, 23, 42, 0.07)',
+
+        transitionDuration:
+          `${TOAST_EXIT_DURATION}ms`,
+
+        /*
+         * Only a newly mounted front card comes in from the right. A card
+         * promoted from the stack uses the transform transition instead.
+         */
+        animation:
+          isEntering &&
+          isFront &&
+          !isExiting
+            ? `neup-toast-enter ${TOAST_EXIT_DURATION}ms cubic-bezier(0.22,1,0.36,1)`
+            : undefined,
+      }}
+    >
+      {/*
+       * --------------------------------------------------------------
+       * Main content
+       * --------------------------------------------------------------
+       */}
+      <div className="flex min-w-0 items-start gap-3">
+        <div className="mt-0.5 shrink-0">
+          {icon ??
+            getStateIcon(
+              state
+            )}
+        </div>
+
+        <div className="grid min-w-0 gap-1">
+          {title && (
+            <ToastTitle>
+              {title}
+            </ToastTitle>
+          )}
+
+          {description && (
+            <ToastDescription>
+              {description}
+            </ToastDescription>
+          )}
+
+          {/*
+           * A toast with no custom action gets its own dismiss action when
+           * it is dismissible. This is independent of stack size.
+           */}
+          {visibleActions.length ===
+              0 &&
+            !action &&
+            canDismiss && (
+              <ToastButton
+                type="outlined"
+                htmlType="button"
+                size="sm"
+                className="mt-1 h-7 justify-self-start px-2 text-xs"
+                onClick={() =>
+                  dismissToast(id)
+                }
+              >
+                Dismiss
+              </ToastButton>
+            )}
+
+          {visibleActions.length >
+              0 && (
+              <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                {visibleActions.map(
+                  ([buttonName, convey, destination], actionIndex) => (
+                    <ToastButton
+                      key={`${buttonName}-${actionIndex}`}
+                      type={
+                        visibleActions.length === 1 || actionIndex === 1
+                          ? 'outlined'
+                          : 'tinted'
+                      }
+                      convey={convey}
+                      htmlType="button"
+                      size="sm"
+                      className="h-7 px-2 text-xs"
+                      onClick={() => {
+                        if (destination === 'dismiss') {
+                          dismissToast(id)
+                          return
+                        }
+
+                        window.location.assign(destination)
+                      }}
+                    >
+                      {buttonName}
+                    </ToastButton>
+                  )
+                )}
+              </div>
+            )}
+
+          {isFront &&
+            visibleActions.length === 0 &&
+            action && (
+              <div className="flex items-center pt-1">
+                {action}
+              </div>
+            )}
+        </div>
+      </div>
+
+      {/*
+       * Cross button.
+       */}
+      {isFront &&
+        canDismiss && (
+          <ToastClose
+            onClick={() =>
+              dismissToast(
+                id
+              )
+            }
+          />
+        )}
+
+      {/*
+       * Progress.
+       *
+       * This animation is also restarted whenever
+       * a toast becomes front.
+       */}
+      {isFront &&
+        !isExiting &&
+        typeof dismissAfter ===
+          'number' &&
+        dismissAfter > 0 && (
+          <div
+            data-toast-progress="true"
+            role="progressbar"
+            aria-label="Toast dismiss countdown"
+            aria-valuemin={0}
+            aria-valuemax={dismissAfter}
+            className={cn(
+              'pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1 origin-left',
+              state === 'success' && 'bg-emerald-500',
+              state === 'warning' && 'bg-orange-500',
+              (state === 'error' || state === 'danger' || variant === 'destructive') && 'bg-red-500',
+              (!state || state === 'info') && variant !== 'destructive' && 'bg-slate-400',
+            )}
+            style={{
+              animation: `neup-toast-progress ${dismissAfter}s linear forwards`,
+            }}
+          />
+        )}
+    </div>
   )
 }
 
-const ToastClose = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Close>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Close
-    ref={ref}
-    className={cn(
-      'absolute right-2 top-2 rounded-md p-1 text-current/60 transition-colors hover:bg-black/10 hover:text-current focus:outline-none focus:ring-2 focus:ring-ring',
-      className
-    )}
-    toast-close=""
-    {...props}
-  >
-    <X className="h-4 w-4" />
-  </ToastPrimitives.Close>
-))
-ToastClose.displayName = ToastPrimitives.Close.displayName
+/*
+|--------------------------------------------------------------------------
+| Toast stack
+|--------------------------------------------------------------------------
+*/
 
-const ToastDismissButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, ...props }, ref) => (
-    <Button
-      ref={ref}
-      variant="plain"
+type ToastStackProps = {
+  name: string
+
+  group: ToasterToast[]
+
+  dismissToast: (
+    id: string
+  ) => void
+}
+
+function ToastStack({
+  name,
+  group,
+  dismissToast,
+}: ToastStackProps) {
+  const visible =
+    group.slice(
+      0,
+      MAX_VISIBLE
+    )
+
+  return (
+    <div
+      data-toast-stack={
+        name
+      }
       className={cn(
-        'border border-current/40 bg-current/10 text-current transition-colors duration-200 ease-out hover:border-current/70 hover:bg-current/20 active:border-current/80 active:bg-current/25',
-        className
+        /*
+         * This is the trick.
+         *
+         * Every VisualToast is placed at:
+         *
+         * grid-column 1
+         * grid-row 1
+         *
+         * so they physically overlap.
+         */
+        'grid w-full grid-cols-1 justify-items-center',
+
+        /*
+         * Space for back-card peeks.
+         */
+        group.length > 1 &&
+          'pb-5'
       )}
-      {...props}
-    />
+    >
+      {visible.map(
+        (
+          toast,
+          index
+        ) => (
+          <VisualToast
+            key={toast.id}
+            toast={toast}
+            index={index}
+            dismissToast={
+              dismissToast
+            }
+          />
+        )
+      )}
+    </div>
   )
-)
-ToastDismissButton.displayName = 'ToastDismissButton'
+}
 
-const ToastTitle = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Title>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Title ref={ref} className={cn('text-sm font-semibold', className)} {...props} />
-))
-ToastTitle.displayName = ToastPrimitives.Title.displayName
+/*
+|--------------------------------------------------------------------------
+| Toaster
+|--------------------------------------------------------------------------
+*/
 
-const ToastDescription = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Description>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Description ref={ref} className={cn('text-sm opacity-95', className)} {...props} />
-))
-ToastDescription.displayName = ToastPrimitives.Description.displayName
+export function Toaster() {
+  const {
+    toasts,
+    dismiss,
+  } = useToast()
 
-export {
-  ToastProvider,
-  ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastDismissButton,
-  ToastAction,
-  type ToastProps,
+  /*
+   * --------------------------------------------------------------
+   * Group by toast.name only. A toast's dismissal settings do not create a
+   * separate stack.
+   * --------------------------------------------------------------
+   *
+   * useToast inserts newest toast first.
+   *
+   * Therefore this preserves:
+   *
+   * newest
+   * previous
+   * older
+   */
+  const groups =
+    React.useMemo(() => {
+      const map =
+        new Map<
+          string,
+          ToasterToast[]
+        >()
+
+      for (const toast of toasts) {
+        const current =
+          map.get(
+            toast.name
+          ) ?? []
+
+        current.push(
+          toast
+        )
+
+        map.set(
+          toast.name,
+          current
+        )
+      }
+
+      return Array.from(
+        map.entries()
+      )
+    }, [toasts])
+
+  return (
+    <>
+      {/*
+       * ------------------------------------------------------------
+       * Animation definitions
+       * ------------------------------------------------------------
+       *
+       * Kept locally so there is no need to modify
+       * globals.css or tailwind.config.
+       */}
+      <style>{`
+        @keyframes neup-toast-enter {
+          0% {
+            opacity: 0;
+            transform: translate3d(115%, 0, 0) scale(0.98);
+          }
+
+          65% {
+            opacity: 1;
+          }
+
+          100% {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+          }
+        }
+
+        @keyframes neup-toast-progress {
+          from {
+            transform: scaleX(1);
+          }
+
+          to {
+            transform: scaleX(0);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          [data-toast-stack] > * {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
+      `}</style>
+
+      <ToastViewport>
+        {groups.map(
+          ([
+            name,
+            group,
+          ]) => (
+            <ToastStack
+              key={name}
+              name={name}
+              group={group}
+              dismissToast={(
+                id
+              ) =>
+                dismiss(
+                  id
+                )
+              }
+            />
+          )
+        )}
+      </ToastViewport>
+    </>
+  )
 }
