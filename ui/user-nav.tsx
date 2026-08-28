@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Userbar } from '@/component/elements/userbar';
+import { Userbar } from '@/components/element/userbar';
 import { useSession } from '@/core/providers/session';
 
 export function UserNav() {
