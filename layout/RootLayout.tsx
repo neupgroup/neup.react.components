@@ -1,4 +1,4 @@
-import { Toaster } from '@/components/ui/toast';
+import { Toaster } from '#/components/ui/toast';
 
 /**
  * ::neup.documentation::root-layout

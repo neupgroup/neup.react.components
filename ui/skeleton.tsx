@@ -1,5 +1,5 @@
 //to be remade
-import { cn } from "@/core/utils"
+import { cn } from "#/core/utils"
 
 function Skeleton({
   className,
@@ -14,4 +14,3 @@ function Skeleton({
 }
 
 export { Skeleton }
-

@@ -6,8 +6,8 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
-import { cn } from "@/core/utils"
-import { useIsMobile } from "@/core/hooks/useMobile"
+import { cn } from "#/core/utils"
+import { useIsMobile } from "#/core/hooks/useMobile"
 import { Button } from "@/component/ui/button"
 import { Input } from "@/component/ui/input"
 import { Separator } from "@/component/ui/separator"
@@ -239,4 +239,3 @@ const Sidebar = React.forwardRef<
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
-

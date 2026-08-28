@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/component/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '#/component/ui/avatar';
 
 export interface UserbarProps extends HTMLAttributes<HTMLDivElement> {
   displayName: string;

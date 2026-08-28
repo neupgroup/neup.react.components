@@ -5,7 +5,7 @@ import * as React from "react"
 import * as MenubarPrimitive from "@radix-ui/react-menubar"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
-import { cn } from "@/core/utils"
+import { cn } from "#/core/utils"
 
 function MenubarMenu({
   ...props
@@ -239,4 +239,3 @@ MenubarShortcut.displayname = "MenubarShortcut"
 
 export {
   Menubar,
-

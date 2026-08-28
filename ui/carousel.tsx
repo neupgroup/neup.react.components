@@ -7,7 +7,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
-import { cn } from "@/core/utils"
+import { cn } from "#/core/utils"
 import { Button } from "@/component/ui/button"
 
 type CarouselApi = UseEmblaCarouselType[1]
@@ -239,4 +239,3 @@ const CarouselNext = React.forwardRef<
         "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
           ? "-right-12 top-1/2 -translate-y-1/2"
-

@@ -7,8 +7,8 @@ import * as ToastPrimitives from '@radix-ui/react-toast'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { CircleCheck, CircleX, Info, TriangleAlert, X } from 'lucide-react'
 
-import { cn } from '@/core/utils'
-import { useToast, type ToastState } from '@/core/hooks/useToast'
+import { cn } from '#/core/utils'
+import { useToast, type ToastState } from '#/core/hooks/useToast'
 import { Button, type ButtonProps } from './button'
 
 const ToastProvider = ToastPrimitives.Provider

@@ -4,7 +4,7 @@
 
 import * as React from "react"
 
-import { cn } from "@/core/utils"
+import { cn } from "#/core/utils"
 
 const AvatarContext = React.createContext<{
   imageLoaded: boolean
