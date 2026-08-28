@@ -6,12 +6,14 @@
 !elements/
 !layout/
 !ui/
+!animation/
 
 # Allow everything inside them
 !element/**
 !elements/**
 !layout/**
 !ui/**
+!animation/**
 
 # Keep .gitignore
 !.gitignore
