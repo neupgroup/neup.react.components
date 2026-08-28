@@ -10,6 +10,7 @@ import Copy from '#/components/animation/Copy';
 import CrossMark from '#/components/animation/CrossMark';
 import CreateFile from '#/components/animation/CreateFile';
 import Deploy from '#/components/animation/Deploy';
+import Deleted from '#/components/animation/Deleted';
 import Disconnected from '#/components/animation/Disconnected';
 import Download from '#/components/animation/Download';
 import Hide from '#/components/animation/Hide';
@@ -29,38 +30,47 @@ import Unlock from '#/components/animation/Unlock';
 import Upload from '#/components/animation/Upload';
 import Warning from '#/components/animation/Warning';
 
-/*
-::neup.documentation::icon-block
-::title Icon Block
-
-::public
-
-Renders a static image, an external GIF, or a named animation. Animated icons
-accept a required `from` animation and an optional `to` animation. The
-animation registry is intentionally local so new animation files can be
-registered without changing the block's public API.
-
-Examples:
-
-`<Icon type="animated" from="CodeRevolve" />`
-`<Icon type="animated" from="CodeRevolve" to="Tick" />`
-`<Icon type="gif" source="https://example.com/loading.gif" repeats />`
-`<Icon type="static" source="/icons/cloud.svg" />`
-
-::public end
-
-::end
-*/
-
 type AnimationComponent = React.ComponentType<{
   size?: number;
   duration?: number;
   label?: string | null;
+
+  /**
+   * 0 = play animation, 1 = play the target animation, 2 = hold its 100% state
+   */
+  position?: number;
 }>;
 
-type IconBaseProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'color'> & {
-  /** Width and height of the rendered icon in pixels. */
+type IconBaseProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'color'
+> & {
   size?: number;
+
+  /**
+   * Duration of the icon animation.
+   */
+  duration?: number;
+
+  /**
+   * Animation position.
+   *
+   * 0 = start / play `from`
+   * 1 = start / play `to`
+   * 2 = render the 100% end state
+   *
+   * Defaults to 0.
+   */
+  position?: number;
+
+  /**
+   * Called after a `from -> to` animation completes.
+   *
+   * Normally the parent should then update:
+   *
+   * position={2}
+   */
+  onComplete?: () => void;
 };
 
 export type AnimatedIconProps = IconBaseProps & {
@@ -80,7 +90,10 @@ export type StaticIconProps = IconBaseProps & {
   source: string;
 };
 
-export type IconProps = AnimatedIconProps | GifIconProps | StaticIconProps;
+export type IconProps =
+  | AnimatedIconProps
+  | GifIconProps
+  | StaticIconProps;
 
 const animations: Record<string, AnimationComponent> = {
   bell: Bell,
@@ -90,7 +103,9 @@ const animations: Record<string, AnimationComponent> = {
   copy: Copy,
   crossmark: CrossMark,
   createfile: CreateFile,
+  delete: Trash,
   deploy: Deploy,
+  deleted: Deleted,
   disconnected: Disconnected,
   download: Download,
   hide: Hide,
@@ -112,44 +127,202 @@ const animations: Record<string, AnimationComponent> = {
 };
 
 function normalizeAnimationName(name: string) {
-  return name
-    .trim()
-    .replace(/\.(?:tsx?|jsx?)$/, '')
-    .split('/')
-    .pop()
-    ?.toLowerCase() ?? '';
+  return (
+    name
+      .trim()
+      .replace(/\.(?:tsx?|jsx?)$/, '')
+      .split('/')
+      .pop()
+      ?.toLowerCase() ?? ''
+  );
 }
 
 function getAnimation(name: string) {
   return animations[normalizeAnimationName(name)];
 }
 
-function UnknownAnimation({ name }: { name: string }) {
+function normalizePosition(position: number | undefined) {
+  if (!Number.isFinite(position)) {
+    return 0;
+  }
+
+  return Math.min(Math.max(Math.round(position ?? 0), 0), 2);
+}
+
+function UnknownAnimation({
+  name,
+}: {
+  name: string;
+}) {
   if (process.env.NODE_ENV !== 'production') {
-    console.warn(`Icon: animation "${name}" is not registered.`);
+    console.warn(
+      `Icon: animation "${name}" is not registered.`,
+    );
   }
 
   return null;
 }
 
+type AnimatedIconInternalProps = Pick<
+  AnimatedIconProps,
+  | 'from'
+  | 'to'
+  | 'size'
+  | 'duration'
+  | 'position'
+  | 'onComplete'
+>;
+
 function AnimatedIcon({
   from,
   to,
   size,
-}: Pick<AnimatedIconProps, 'from' | 'to' | 'size'>) {
+  duration = 1200,
+  position = 0,
+  onComplete,
+}: AnimatedIconInternalProps) {
   const FromAnimation = getAnimation(from);
-  const ToAnimation = to ? getAnimation(to) : undefined;
+  const ToAnimation = to
+    ? getAnimation(to)
+    : undefined;
+
+  const currentPosition =
+    normalizePosition(position);
+
+  React.useEffect(() => {
+    if (!to || currentPosition !== 1 || !onComplete) {
+      return;
+    }
+
+    const timeout = window.setTimeout(onComplete, duration);
+    return () => window.clearTimeout(timeout);
+  }, [currentPosition, duration, onComplete, to]);
+
+  const renderEndState = (
+    Animation: AnimationComponent,
+  ) => (
+    <>
+      <span data-neup-icon-final-state>
+        <Animation
+          size={size}
+          duration={duration}
+          label="Animated icon"
+        />
+      </span>
+      <style>{`
+        [data-neup-icon-final-state],
+        [data-neup-icon-final-state] * {
+          animation-delay: 0ms !important;
+          animation-direction: reverse !important;
+          animation-fill-mode: both !important;
+          animation-iteration-count: 1 !important;
+          animation-play-state: paused !important;
+        }
+      `}</style>
+    </>
+  );
 
   if (!FromAnimation) {
     return <UnknownAnimation name={from} />;
   }
 
-  // Until a target animation is registered, keep the source animation active.
-  // This makes a standalone `from="CodeRevolve"` safe to use while the
-  // animation set grows.
-  if (!to || !ToAnimation) {
-    return <FromAnimation size={size} label="Animated icon" />;
+  /**
+   * --------------------------------------------------
+   * NO "to"
+   * --------------------------------------------------
+   *
+   * position has no effect.
+   *
+   * The animation behaves normally and can loop
+   * infinitely if the animation component itself loops.
+   *
+   * position={0}
+   * position={1}
+   * position={2}
+   *
+   * both behave identically here.
+   */
+  if (!to) {
+    if (currentPosition >= 2) {
+      return renderEndState(FromAnimation);
+    }
+
+    return (
+      <FromAnimation
+        size={size}
+        duration={duration}
+        label="Animated icon"
+      />
+    );
   }
+
+  if (!ToAnimation) {
+    return <UnknownAnimation name={to} />;
+  }
+
+  /**
+   * --------------------------------------------------
+   * position = 2
+   * --------------------------------------------------
+   *
+   * The transition is finished.
+   *
+   * Only render the final "to" animation/frame.
+   *
+   * position={2} tells the icon
+   * to hold its final frame.
+   */
+  if (currentPosition >= 2) {
+    return renderEndState(ToAnimation);
+  }
+
+  if (currentPosition === 1) {
+    return (
+      <ToAnimation
+        size={size}
+        duration={duration}
+        label="Animated icon"
+      />
+    );
+  }
+
+  /**
+   * --------------------------------------------------
+   * position = 0 -> < 1
+   * --------------------------------------------------
+   *
+   * Play from -> to.
+   */
+  const transitionDuration = 360;
+
+  const transitionDelay =
+    currentPosition > 0
+      ? `-${currentPosition * transitionDuration}ms`
+      : '0ms';
+
+  const handleTransitionComplete = (
+    event: React.AnimationEvent<HTMLSpanElement>,
+  ) => {
+    /**
+     * Ignore animation events bubbling from the
+     * animation component itself.
+     */
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    /**
+     * Only source disappearance controls completion.
+     */
+    if (
+      event.animationName !==
+      'neup-icon-source-disappear'
+    ) {
+      return;
+    }
+
+    onComplete?.();
+  };
 
   return (
     <span
@@ -162,34 +335,78 @@ function AnimatedIcon({
         position: 'relative',
       }}
     >
+      {/* FROM */}
       <span
+        onAnimationEnd={
+          handleTransitionComplete
+        }
         style={{
           gridArea: '1 / 1',
-          animation: 'neup-icon-source-disappear 420ms ease-in forwards',
+          animation: `
+            neup-icon-source-disappear
+            ${transitionDuration}ms
+            ease-in
+            ${transitionDelay}
+            forwards
+          `,
         }}
       >
-        <FromAnimation size={size} label={null} />
+        <FromAnimation
+          size={size}
+          duration={duration}
+          label={null}
+        />
       </span>
+
+      {/* TO */}
       <span
         style={{
           gridArea: '1 / 1',
           opacity: 0,
-          animation: 'neup-icon-target-appear 420ms cubic-bezier(.34, 1.56, .64, 1) forwards',
+          animation: `
+            neup-icon-target-appear
+            ${transitionDuration}ms
+            cubic-bezier(.34, 1.56, .64, 1)
+            ${transitionDelay}
+            forwards
+          `,
         }}
       >
-        <ToAnimation size={size} label={null} />
+        <ToAnimation
+          size={size}
+          duration={transitionDuration}
+          label={null}
+        />
       </span>
+
       <style>{`
-        @keyframes neup-icon-target-appear {
-          0% { opacity: 0; transform: scale(.72); }
-          50% { opacity: 1; transform: scale(1.08); }
-          100% { opacity: 1; transform: scale(1); }
+        @keyframes neup-icon-source-disappear {
+          0% {
+            opacity: 1;
+            transform: scale(1);
+          }
+
+          100% {
+            opacity: 0;
+            transform: scale(.72);
+          }
         }
 
-        @keyframes neup-icon-source-disappear {
-          0% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0; transform: scale(.72); }
-          100% { opacity: 0; transform: scale(.72); }
+        @keyframes neup-icon-target-appear {
+          0% {
+            opacity: 0;
+            transform: scale(.72);
+          }
+
+          55% {
+            opacity: 1;
+            transform: scale(1.08);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
       `}</style>
     </span>
@@ -197,19 +414,34 @@ function AnimatedIcon({
 }
 
 export function Icon(props: IconProps) {
-  const { type, size = 32, className, style, ...rest } = props;
+  const {
+    type,
+    size = 32,
+    duration = 1200,
+    position = 0,
+    className,
+    style,
+    onComplete,
+    ...rest
+  } = props;
+
   const {
     from: _from,
     to: _to,
     source: _source,
     repeats: _repeats,
+    position: _position,
+    onComplete: _onComplete,
     ...htmlProps
   } = rest as React.HTMLAttributes<HTMLDivElement> & {
     from?: string;
     to?: string;
     source?: string;
     repeats?: boolean;
+    position?: number;
+    onComplete?: () => void;
   };
+
   const wrapperStyle: React.CSSProperties = {
     display: 'inline-flex',
     width: size,
@@ -220,9 +452,20 @@ export function Icon(props: IconProps) {
   };
 
   return (
-    <div className={className} style={wrapperStyle} {...htmlProps}>
+    <div
+      className={className}
+      style={wrapperStyle}
+      {...htmlProps}
+    >
       {type === 'animated' ? (
-        <AnimatedIcon from={props.from} to={props.to} size={size} />
+        <AnimatedIcon
+          from={props.from}
+          to={props.to}
+          size={size}
+          duration={duration}
+          position={position}
+          onComplete={onComplete}
+        />
       ) : (
         <img
           src={props.source}
@@ -230,7 +473,11 @@ export function Icon(props: IconProps) {
           width={size}
           height={size}
           data-icon-type={type}
-          data-icon-repeats={type === 'gif' ? String(props.repeats ?? true) : undefined}
+          data-icon-repeats={
+            type === 'gif'
+              ? String(props.repeats ?? true)
+              : undefined
+          }
           style={{
             display: 'block',
             width: '100%',

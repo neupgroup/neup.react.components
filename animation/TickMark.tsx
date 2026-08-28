@@ -30,14 +30,31 @@ const animationStyles = `
     100% { opacity: 1; transform: scale(1); }
   }
 
+  @keyframes neup-tick-mark-circle {
+    0% {
+      transform: rotate(0deg);
+      border-color: transparent;
+      border-top-color: var(--neup-tick-mark-color, #28a745);
+      border-right-color: var(--neup-tick-mark-color, #28a745);
+    }
+
+    84% {
+      transform: rotate(360deg);
+      border-color: transparent;
+      border-top-color: var(--neup-tick-mark-color, #28a745);
+      border-right-color: var(--neup-tick-mark-color, #28a745);
+    }
+
+    99%, 100% {
+      transform: rotate(360deg);
+      border-color: var(--neup-tick-mark-color, #28a745);
+    }
+  }
+
   @keyframes neup-tick-mark-draw {
     0% { stroke-dashoffset: 24; }
     50% { stroke-dashoffset: 10; }
     100% { stroke-dashoffset: 0; }
-  }
-
-  @keyframes neup-tick-mark-revolve {
-    to { transform: rotate(360deg); }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -45,14 +62,17 @@ const animationStyles = `
       animation-duration: .01ms !important;
     }
 
+    [data-neup-tick-mark-circle] {
+      animation-duration: .01ms !important;
+      transform: rotate(360deg) !important;
+      border-color: var(--neup-tick-mark-color, #28a745) !important;
+    }
+
     [data-neup-tick-mark-check] {
       animation-duration: .01ms !important;
       stroke-dashoffset: 0 !important;
     }
 
-    [data-neup-tick-mark-revolve] {
-      animation-duration: .01ms !important;
-    }
   }
 `;
 
@@ -87,31 +107,26 @@ export const TickMark = React.forwardRef<HTMLDivElement, TickMarkProps>(
       >
         <style>{animationStyles}</style>
 
-        <span
+        <div
           data-neup-tick-mark
-          aria-hidden="true"
           style={{
             width: '100%',
             height: '100%',
             position: 'relative',
             display: 'grid',
             placeItems: 'center',
-            borderRadius: '50%',
-            border: 'var(--neup-tick-mark-border, 2px) solid var(--neup-tick-mark-color, #28a745)',
             animation: 'neup-tick-mark-appear 620ms cubic-bezier(.34, 1.56, .64, 1) forwards',
           }}
         >
           <span
-            data-neup-tick-mark-revolve
+            data-neup-tick-mark-circle
             aria-hidden="true"
             style={{
               position: 'absolute',
-              inset: -1,
-              border: '2px solid transparent',
-              borderTopColor: 'var(--neup-tick-mark-color, #28a745)',
-              borderRightColor: 'var(--neup-tick-mark-color, #28a745)',
+              inset: 0,
               borderRadius: '50%',
-              animation: 'neup-tick-mark-revolve 900ms linear infinite',
+              border: 'var(--neup-tick-mark-border, 2px) solid transparent',
+              animation: 'neup-tick-mark-circle 900ms linear forwards',
             }}
           />
           <svg
@@ -131,11 +146,11 @@ export const TickMark = React.forwardRef<HTMLDivElement, TickMarkProps>(
               strokeDasharray="24"
               strokeDashoffset="24"
               style={{
-                animation: 'neup-tick-mark-draw 620ms cubic-bezier(.65, 0, .35, 1) 180ms forwards',
+                animation: 'neup-tick-mark-draw 620ms cubic-bezier(.65, 0, .35, 1) 900ms forwards',
               }}
             />
           </svg>
-        </span>
+        </div>
       </div>
     );
   },
