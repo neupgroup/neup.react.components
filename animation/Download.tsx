@@ -9,7 +9,7 @@ import * as React from 'react';
 ::public
 
 Displays a continuously looping download animation with a fading downward
-arrow and a subtle receiving tray pulse.
+arrow, a subtle receiving tray pulse, and a grey revolving outline circle.
 
 ::public end
 
@@ -63,9 +63,14 @@ const animationStyles = `
     }
   }
 
+  @keyframes neup-download-revolve {
+    to { transform: rotate(360deg); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-neup-download-arrow],
-    [data-neup-download-tray] {
+    [data-neup-download-tray],
+    [data-neup-download-revolve] {
       animation-duration: .01ms !important;
     }
   }
@@ -109,6 +114,21 @@ export const Download = React.forwardRef<HTMLDivElement, DownloadProps>(
         {...props}
       >
         <style>{animationStyles}</style>
+
+        <span
+          data-neup-download-revolve
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 1 * scale,
+            border: `${strokeWidth}px solid ${color}`,
+            borderTopColor: 'transparent',
+            borderRadius: '50%',
+            animation: `neup-download-revolve ${duration}ms linear infinite`,
+            animationPlayState: paused ? 'paused' : 'running',
+            pointerEvents: 'none',
+          }}
+        />
 
         <span
           data-neup-download-arrow

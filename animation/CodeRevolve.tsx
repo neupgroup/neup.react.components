@@ -37,6 +37,13 @@ const animationStyles = `
     0%, 100% { opacity: .82; }
     50% { opacity: 1; }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-neup-code-revolve-ring],
+    [data-neup-code-revolve-icon] {
+      animation-duration: .01ms !important;
+    }
+  }
 `;
 
 /**
@@ -82,12 +89,13 @@ export const CodeRevolve = React.forwardRef<HTMLDivElement, CodeRevolveProps>(
         <style>{animationStyles}</style>
 
         <span
+          data-neup-code-revolve-ring
           aria-hidden="true"
           style={{
             position: 'absolute',
             inset: Math.max(1, size * 0.03),
-            border: `${Math.max(1.5, size * 0.0625)}px solid var(--neup-code-revolve-track, rgba(0, 0, 0, 0.08))`,
-            borderTopColor: 'var(--neup-code-revolve-accent, #6e6e73)',
+            border: `${Math.max(1.5, size * 0.0625)}px solid var(--neup-code-revolve-color, #3a3a3c)`,
+            borderTopColor: 'var(--neup-code-revolve-accent, var(--neup-code-revolve-color, #3a3a3c))',
             borderRadius: '50%',
             animation: `neup-code-revolve-spin ${duration}ms linear infinite`,
             animationPlayState: paused ? 'paused' : 'running',
@@ -95,6 +103,7 @@ export const CodeRevolve = React.forwardRef<HTMLDivElement, CodeRevolveProps>(
         />
 
         <span
+          data-neup-code-revolve-icon
           aria-hidden="true"
           style={{
             position: 'relative',

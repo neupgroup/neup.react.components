@@ -8,8 +8,8 @@ import * as React from 'react';
 
 ::public
 
-Displays a spring-in success mark with a softly tinted green circle and a
-drawn check. The animation runs once when the component mounts.
+Displays a spring-in success mark with a green outline circle and a drawn
+check. The animation runs once when the component mounts.
 
 ::public end
 
@@ -36,6 +36,10 @@ const animationStyles = `
     100% { stroke-dashoffset: 0; }
   }
 
+  @keyframes neup-tick-mark-revolve {
+    to { transform: rotate(360deg); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-neup-tick-mark] {
       animation-duration: .01ms !important;
@@ -44,6 +48,10 @@ const animationStyles = `
     [data-neup-tick-mark-check] {
       animation-duration: .01ms !important;
       stroke-dashoffset: 0 !important;
+    }
+
+    [data-neup-tick-mark-revolve] {
+      animation-duration: .01ms !important;
     }
   }
 `;
@@ -85,13 +93,27 @@ export const TickMark = React.forwardRef<HTMLDivElement, TickMarkProps>(
           style={{
             width: '100%',
             height: '100%',
+            position: 'relative',
             display: 'grid',
             placeItems: 'center',
             borderRadius: '50%',
-            background: 'var(--neup-tick-mark-background, rgba(52, 199, 89, .12))',
+            border: 'var(--neup-tick-mark-border, 2px) solid var(--neup-tick-mark-color, #28a745)',
             animation: 'neup-tick-mark-appear 620ms cubic-bezier(.34, 1.56, .64, 1) forwards',
           }}
         >
+          <span
+            data-neup-tick-mark-revolve
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: -1,
+              border: '2px solid transparent',
+              borderTopColor: 'var(--neup-tick-mark-color, #28a745)',
+              borderRightColor: 'var(--neup-tick-mark-color, #28a745)',
+              borderRadius: '50%',
+              animation: 'neup-tick-mark-revolve 900ms linear infinite',
+            }}
+          />
           <svg
             aria-hidden="true"
             viewBox="0 0 20 20"

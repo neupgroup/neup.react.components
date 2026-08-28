@@ -8,9 +8,8 @@ import * as React from 'react';
 
 ::public
 
-Displays a spring-in cancellation mark with a soft red circular background
-and two staggered red strokes. The animation runs once and holds its final
-state.
+Displays a spring-in cancellation mark with a red outline circle and two
+staggered red strokes. The animation runs once and holds its final state.
 
 ::public end
 
@@ -66,9 +65,17 @@ const animationStyles = `
     }
   }
 
+  @keyframes neup-cross-mark-revolve {
+    to { transform: rotate(360deg); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-neup-cross-mark],
     [data-neup-cross-mark-slash] {
+      animation-duration: .01ms !important;
+    }
+
+    [data-neup-cross-mark-revolve] {
       animation-duration: .01ms !important;
     }
   }
@@ -120,12 +127,24 @@ export const CrossMark = React.forwardRef<HTMLDivElement, CrossMarkProps>(
             placeItems: 'center',
             border: `${strokeWidth}px solid ${color}`,
             borderRadius: '50%',
-            background: 'var(--neup-cross-mark-background, rgba(255, 59, 48, .12))',
             opacity: 0,
             transform: 'scale(.72)',
             animation: 'neup-cross-mark-circle-in 420ms cubic-bezier(.34, 1.56, .64, 1) forwards',
           }}
         >
+          <span
+            data-neup-cross-mark-revolve
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: -1,
+              border: '2px solid transparent',
+              borderTopColor: color,
+              borderRightColor: color,
+              borderRadius: '50%',
+              animation: 'neup-cross-mark-revolve 900ms linear infinite',
+            }}
+          />
           <span
             data-neup-cross-mark-slash
             aria-hidden="true"

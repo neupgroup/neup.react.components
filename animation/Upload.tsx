@@ -9,7 +9,7 @@ import * as React from 'react';
 ::public
 
 Displays a continuously looping upload animation with a fading upward arrow
-and a subtle tray pulse.
+arrow, a subtle tray pulse, and a grey revolving outline circle.
 
 ::public end
 
@@ -63,9 +63,14 @@ const animationStyles = `
     }
   }
 
+  @keyframes neup-upload-revolve {
+    to { transform: rotate(360deg); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     [data-neup-upload-arrow],
-    [data-neup-upload-tray] {
+    [data-neup-upload-tray],
+    [data-neup-upload-revolve] {
       animation-duration: .01ms !important;
     }
   }
@@ -108,6 +113,21 @@ export const Upload = React.forwardRef<HTMLDivElement, UploadProps>(
         {...props}
       >
         <style>{animationStyles}</style>
+
+        <span
+          data-neup-upload-revolve
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 1 * scale,
+            border: `${strokeWidth}px solid ${color}`,
+            borderTopColor: 'transparent',
+            borderRadius: '50%',
+            animation: `neup-upload-revolve ${duration}ms linear infinite`,
+            animationPlayState: paused ? 'paused' : 'running',
+            pointerEvents: 'none',
+          }}
+        />
 
         <span
           data-neup-upload-arrow

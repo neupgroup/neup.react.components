@@ -2,9 +2,16 @@
 
 import * as React from 'react';
 
+import Bell from '#/components/animation/Bell';
 import CodeRevolve from '#/components/animation/CodeRevolve';
+import Copy from '#/components/animation/Copy';
 import CrossMark from '#/components/animation/CrossMark';
 import Download from '#/components/animation/Download';
+import Pending from '#/components/animation/Pending';
+import Play from '#/components/animation/Play';
+import Save from '#/components/animation/Save';
+import Send from '#/components/animation/Send';
+import Stop from '#/components/animation/Stop';
 import TickMark from '#/components/animation/TickMark';
 import Upload from '#/components/animation/Upload';
 
@@ -62,9 +69,16 @@ export type StaticIconProps = IconBaseProps & {
 export type IconProps = AnimatedIconProps | GifIconProps | StaticIconProps;
 
 const animations: Record<string, AnimationComponent> = {
+  bell: Bell,
   coderevolve: CodeRevolve,
+  copy: Copy,
   crossmark: CrossMark,
   download: Download,
+  pending: Pending,
+  play: Play,
+  save: Save,
+  send: Send,
+  stop: Stop,
   tickmark: TickMark,
   upload: Upload,
 };
