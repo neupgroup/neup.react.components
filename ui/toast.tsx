@@ -16,6 +16,7 @@ import {
   TOAST_EXIT_DURATION,
   useToast,
   type ToastState,
+  type ToastConvey,
   type ToasterToast,
 } from '#/core/hooks/useToast'
 
@@ -344,6 +345,36 @@ type VisualToastProps = {
   ) => void
 }
 
+const toastConveyClasses: Record<ToastConvey, string> = {
+  danger:
+    'bg-gradient-to-r from-red-50/45 via-white/80 to-white/95 text-red-950',
+  dangerous:
+    'bg-gradient-to-r from-red-50/45 via-white/80 to-white/95 text-red-950',
+  warning:
+    'bg-gradient-to-r from-orange-50/45 via-white/80 to-white/95 text-orange-950',
+  success:
+    'bg-gradient-to-r from-emerald-50/45 via-white/80 to-white/95 text-emerald-950',
+  info:
+    'bg-gradient-to-r from-blue-50/45 via-white/80 to-white/95 text-blue-950',
+  none:
+    'bg-background/95 text-foreground',
+}
+
+function getToastConvey(
+  convey: ToastConvey | undefined,
+  state: ToastState | undefined
+): ToastConvey {
+  if (convey) {
+    return convey
+  }
+
+  if (state === 'error') {
+    return 'danger'
+  }
+
+  return state ?? 'info'
+}
+
 function VisualToast({
   toast,
   index,
@@ -360,7 +391,13 @@ function VisualToast({
     className,
     dismissesOn,
     variant,
+    convey,
   } = toast
+
+  const toastConvey = getToastConvey(
+    convey,
+    state
+  )
 
   const dismissAfter =
     dismissesOn === null
@@ -490,28 +527,10 @@ function VisualToast({
         'ease-[cubic-bezier(0.22,1,0.36,1)]',
 
         /*
-         * State colors.
+         * Light convey gradients keep the surface soft while making the
+         * toast's meaning immediately recognizable.
          */
-        (!state ||
-          state ===
-            'info') &&
-          'bg-background/95 text-foreground',
-
-        state ===
-          'warning' &&
-          'bg-amber-50/95 text-amber-950',
-
-        state ===
-          'error' &&
-          'bg-red-50/95 text-red-950',
-
-        state ===
-          'danger' &&
-          'bg-red-50/95 text-red-950',
-
-        state ===
-          'success' &&
-          'bg-emerald-50/95 text-emerald-950',
+        toastConveyClasses[toastConvey],
 
         className
       )}
@@ -552,10 +571,10 @@ function VisualToast({
 
         boxShadow:
           index === 0
-            ? '0 10px 35px rgba(15, 23, 42, 0.14)'
+            ? '0 12px 38px rgba(15, 23, 42, 0.22)'
             : index === 1
-              ? '0 6px 24px rgba(15, 23, 42, 0.10)'
-              : '0 4px 16px rgba(15, 23, 42, 0.07)',
+              ? '0 8px 28px rgba(15, 23, 42, 0.16)'
+              : '0 5px 20px rgba(15, 23, 42, 0.12)',
 
         transitionDuration:
           `${TOAST_EXIT_DURATION}ms`,
