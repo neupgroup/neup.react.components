@@ -9,7 +9,7 @@ import { CircleCheck, CircleX, Info, TriangleAlert, X } from 'lucide-react'
 
 import { cn } from '#/core/utils'
 import { useToast, type ToastState } from '#/core/hooks/useToast'
-import { Button, type ButtonProps } from './button'
+import { Button, type ButtonProps } from '#/components/ui/button'
 
 const ToastProvider = ToastPrimitives.Provider
 
