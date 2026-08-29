@@ -1,10 +1,9 @@
 //to be remade
 
 import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-
 import { cn } from '#/core/utils'
+import { Button, type ButtonProps } from '#/components/ui/button'
 
 const navButtonVariants = cva(
   'inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:bg-primary/10 hover:text-primary active:bg-primary/25 active:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
@@ -21,19 +20,14 @@ const navButtonVariants = cva(
   }
 )
 
-export interface NavButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof navButtonVariants> {
-  asChild?: boolean
-}
+export type NavButtonProps = ButtonProps & VariantProps<typeof navButtonVariants>
 
 const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
-  ({ className, active, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
-
+  ({ className, active, type, ...props }, ref) => {
     return (
-      <Comp
+      <Button
         ref={ref}
+        type={type ?? 'plain'}
         data-active={active || undefined}
         className={cn(navButtonVariants({ active, className }), active && 'active')}
         {...props}

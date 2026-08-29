@@ -5,6 +5,7 @@ import { cn } from '#/core/utils'
 type ButtonType = 'solid' | 'tinted' | 'outlined' | 'plain' | 'text'
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon'
 type ButtonConvey = 'danger' | 'warning' | 'success' | 'info' | 'none'
+type ButtonAlignment = 'left' | 'right' | 'center'
 
 interface CommonButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -14,17 +15,14 @@ interface CommonButtonProps
   postIcon?: React.ReactNode
   htmlType?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
   size?: ButtonSize
+  alignment?: ButtonAlignment
   asChild?: boolean
 }
 
-type ButtonProps = CommonButtonProps &
-  ({
-    type?: Exclude<ButtonType, 'plain' | 'text'>
-    convey?: ButtonConvey
-  } | {
-    type: 'plain' | 'text'
-    convey?: never
-  })
+type ButtonProps = CommonButtonProps & {
+  type?: ButtonType
+  convey?: ButtonConvey
+}
 
 const buttonTypes: Record<ButtonType, string> = {
   solid: 'bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80',
@@ -62,6 +60,12 @@ const buttonSizes: Record<ButtonSize, string> = {
   icon: 'h-10 w-10',
 }
 
+const buttonAlignments: Record<ButtonAlignment, string> = {
+  left: 'justify-start',
+  center: 'justify-center',
+  right: 'justify-end',
+}
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({
     className,
@@ -69,6 +73,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     convey = 'none',
     htmlType = 'button',
     size = 'default',
+    alignment = 'center',
     asChild = false,
     preIcon,
     postIcon,
@@ -83,6 +88,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           buttonTypes[type],
           conveyClassName,
       buttonSizes[size],
+      buttonAlignments[alignment],
       className,
     )
 

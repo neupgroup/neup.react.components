@@ -8,8 +8,8 @@ import { PanelLeft } from "lucide-react"
 
 import { cn } from "#/core/utils"
 import { useIsMobile } from "#/core/hooks/useMobile"
-import { Button } from "#/components/ui/button"
 import { Input } from "#/components/ui/input"
+import { NavButton } from "#/components/ui/navbutton"
 import { Separator } from "#/components/ui/separator"
 import { Sheet, SheetContent } from "#/components/ui/sheet"
 import { Skeleton } from "#/components/ui/skeleton"
@@ -239,3 +239,65 @@ const Sidebar = React.forwardRef<
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
+            variant === "floating" || variant === "inset"
+              ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+_2px)]"
+              : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
+            className
+          )}
+        >
+          <div className="flex h-full w-full flex-col bg-sidebar">
+            {children}
+          </div>
+        </div>
+      </div>
+    )
+  }
+)
+Sidebar.displayName = "Sidebar"
+
+const SidebarTrigger = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof NavButton>
+>(({ className, onClick, ...props }, ref) => {
+  const { toggleSidebar } = useSidebar()
+
+  return (
+    <NavButton
+      ref={ref}
+      data-sidebar="trigger"
+      aria-label="Toggle sidebar"
+      className={cn("h-8 w-8", className)}
+      onClick={(event) => {
+        onClick?.(event)
+        toggleSidebar()
+      }}
+      {...props}
+    >
+      <PanelLeft />
+      <span className="sr-only">Toggle Sidebar</span>
+    </NavButton>
+  )
+})
+SidebarTrigger.displayName = "SidebarTrigger"
+
+const SidebarMenuButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ComponentProps<typeof NavButton>
+>(({ className, ...props }, ref) => (
+  <NavButton
+    ref={ref}
+    data-sidebar="menu-button"
+    alignment="left"
+    className={cn("w-full justify-start", className)}
+    {...props}
+  />
+))
+SidebarMenuButton.displayName = "SidebarMenuButton"
+
+export {
+  Sidebar,
+  SidebarMenuButton,
+  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
+}
