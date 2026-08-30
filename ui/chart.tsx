@@ -103,6 +103,18 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+function getPayloadConfigFromPayload(
+  config: ChartConfig,
+  payload: unknown,
+  key: string
+) {
+  if (!payload || typeof payload !== "object") return undefined
+  const record = payload as { payload?: Record<string, unknown>; name?: string }
+  const nested = record.payload
+  const resolvedKey = key || record.name || "value"
+  return config[resolvedKey] || (nested?.[resolvedKey] as ChartConfig[string] | undefined)
+}
+
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
@@ -239,3 +251,18 @@ const ChartTooltipContent = React.forwardRef<
                           {itemConfig?.label || item.name}
                         </span>
                       </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  })
+ChartTooltipContent.displayName = "ChartTooltipContent"
+
+const ChartLegend = RechartsPrimitive.Legend
+
+export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend }

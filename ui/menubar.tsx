@@ -239,3 +239,18 @@ MenubarShortcut.displayname = "MenubarShortcut"
 
 export {
   Menubar,
+  MenubarMenu,
+  MenubarGroup,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarSub,
+  MenubarSubTrigger,
+  MenubarSubContent,
+  MenubarContent,
+  MenubarItem,
+  MenubarCheckboxItem,
+  MenubarRadioItem,
+  MenubarLabel,
+  MenubarSeparator,
+  MenubarShortcut,
+}
