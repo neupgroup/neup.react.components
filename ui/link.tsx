@@ -9,37 +9,66 @@ type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   href?: string;
   backsTo?: string;
   backs?: string;
+  basePath?: boolean;
   children?: ReactNode;
 };
 
-function isExternalUrl(value: string) {
+function external(value: string) {
   return /^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(value);
 }
 
-function makeHref(destination: string, backsTo?: string) {
-  const raw = destination || '#';
-  let result = raw;
+class LinkBuilder {
+  private target = '#';
+  private params = new URLSearchParams();
+  private removed = new Set<string>();
+  private kept = new Set<string>();
+  private forcedBasePath: boolean | undefined;
+  private backParam?: string;
 
-  if (raw.startsWith('/') && !raw.startsWith('//')) {
-    result = `${APP_BASE_PATH}${raw}`.replace(/\/+/g, '/');
-  }
-
-  if (!backsTo) return result;
-
-  const hashIndex = result.indexOf('#');
-  const hash = hashIndex >= 0 ? result.slice(hashIndex) : '';
-  const withoutHash = hashIndex >= 0 ? result.slice(0, hashIndex) : result;
-  const separator = withoutHash.includes('?') ? '&' : '?';
-  return `${withoutHash}${separator}backsTo=${encodeURIComponent(backsTo)}${hash}`;
+  takesTo(value: string) { this.target = value; return this; }
+  backsTo(value: string) { this.backParam = value; return this; }
+  addParam(key: string, value: string) { this.params.set(key, value); return this; }
+  lessParam(key: string) { this.params.delete(key); this.removed.add(key); return this; }
+  keepParam(key: string) { this.kept.add(key); return this; }
+  ignoreBasePath() { this.forcedBasePath = false; return this; }
+  useBasePath() { this.forcedBasePath = true; return this; }
+  get() { return build(this.target, this.backParam, this.forcedBasePath, this.params, this.removed, this.kept); }
 }
 
-export function Link({ takesTo, href, backsTo, backs, children, ...props }: LinkProps) {
-  const destination = takesTo ?? href ?? '#';
-  const resolvedHref = makeHref(destination, backsTo ?? backs);
-
-  if (isExternalUrl(resolvedHref) || resolvedHref.startsWith('mailto:') || resolvedHref.startsWith('tel:')) {
-    return <a href={resolvedHref} {...props}>{children}</a>;
+function build(target: string, backsTo?: string, forcedBasePath?: boolean, params = new URLSearchParams(), removed = new Set<string>(), kept = new Set<string>()) {
+  let result = target || '#';
+  const isFull = external(result) || result.startsWith('mailto:') || result.startsWith('tel:');
+  if (!isFull && (forcedBasePath !== false) && (forcedBasePath === true || result.startsWith('/'))) {
+    result = `${APP_BASE_PATH}${result}`.replace(/\/+/g, '/');
   }
-
-  return <NextLink href={resolvedHref} {...props}>{children}</NextLink>;
+  if (isFull && forcedBasePath === true) return result;
+  const hash = result.indexOf('#');
+  const suffix = hash >= 0 ? result.slice(hash) : '';
+  const url = new URL(hash >= 0 ? result.slice(0, hash) : result, 'https://link.local');
+  if (typeof window !== 'undefined') {
+    const current = new URLSearchParams(window.location.search);
+    kept.forEach((key) => { if (current.has(key)) url.searchParams.set(key, current.get(key)!); });
+  }
+  removed.forEach((key) => url.searchParams.delete(key));
+  params.forEach((value, key) => url.searchParams.set(key, value));
+  if (backsTo) url.searchParams.set('backsTo', backsTo);
+  const query = url.searchParams.toString();
+  const path = isFull ? `${url.protocol === 'https:' && url.hostname === 'link.local' ? '' : url.origin}${url.pathname}` : `${url.pathname}`;
+  return `${path}${query ? `?${query}` : ''}${suffix}`.replace('https://link.local', '');
 }
+
+export function Link({ takesTo, href, backsTo, backs, basePath, children, ...props }: LinkProps) {
+  const target = takesTo ?? href ?? '#';
+  const resolved = build(target, backsTo ?? backs, basePath);
+  return external(resolved) || resolved.startsWith('mailto:') || resolved.startsWith('tel:')
+    ? <a href={resolved} {...props}>{children}</a>
+    : <NextLink href={resolved} {...props}>{children}</NextLink>;
+}
+
+Link.addParam = (key: string, value: string) => new LinkBuilder().addParam(key, value);
+Link.lessParam = (key: string) => new LinkBuilder().lessParam(key);
+Link.keepParam = (key: string) => new LinkBuilder().keepParam(key);
+Link.backsTo = (value: string) => new LinkBuilder().backsTo(value);
+Link.takesTo = (value: string) => new LinkBuilder().takesTo(value);
+Link.ignoreBasePath = () => new LinkBuilder().ignoreBasePath();
+Link.useBasePath = () => new LinkBuilder().useBasePath();
