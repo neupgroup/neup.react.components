@@ -3,6 +3,7 @@
 import NextLink from 'next/link';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 import { APP_BASE_PATH } from '#/core/appconfig';
+import { buttonVariants, type ButtonStyleProps } from '#/components/styles/button';
 
 type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   takesTo?: string;
@@ -11,7 +12,7 @@ type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   backs?: string;
   basePath?: boolean;
   children?: ReactNode;
-};
+} & ButtonStyleProps;
 
 function external(value: string) {
   return /^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(value);
@@ -57,12 +58,21 @@ function build(target: string, backsTo?: string, forcedBasePath?: boolean, param
   return `${path}${query ? `?${query}` : ''}${suffix}`.replace('https://link.local', '');
 }
 
-export function Link({ takesTo, href, backsTo, backs, basePath, children, ...props }: LinkProps) {
+export function Link({ takesTo, href, backsTo, backs, basePath, children, type, convey, size, alignment, className, ...props }: LinkProps) {
   const target = takesTo ?? href ?? '#';
   const resolved = build(target, backsTo ?? backs, basePath);
+  // Links are text links by default. Explicit style props still turn the link
+  // into a link-button using the same variants as the Button component.
+  const styledClassName = buttonVariants({
+    type: type ?? 'text',
+    convey,
+    size,
+    alignment,
+    className,
+  });
   return external(resolved) || resolved.startsWith('mailto:') || resolved.startsWith('tel:')
-    ? <a href={resolved} {...props}>{children}</a>
-    : <NextLink href={resolved} {...props}>{children}</NextLink>;
+    ? <a href={resolved} className={styledClassName} {...props}>{children}</a>
+    : <NextLink href={resolved} className={styledClassName} {...props}>{children}</NextLink>;
 }
 
 Link.addParam = (key: string, value: string) => new LinkBuilder().addParam(key, value);

@@ -15,10 +15,9 @@ Pass `backsTo` as `/path`, `appname::/path`, or an absolute URL. `selectedServer
 ::end
 */
 
-import Link from 'next/link';
+import { Link } from '#/components/ui/link';
 import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '#/components/ui/button';
 import { getEnvVariable } from '#/core/helpers/env';
 import { cn } from '#/core/utils';
 
@@ -85,7 +84,7 @@ function withAppRoot(appName: string, path: string) {
 function resolveDestination(
     destination: string,
     withParameter: string | string[] | undefined,
-    currentSearchParams: ReadonlyURLSearchParams,
+    currentSearchParams: Pick<URLSearchParams, 'get'>,
 ) {
     const trimmedDestination = destination.trim() || '/';
     const separatorIndex = trimmedDestination.indexOf('::');
@@ -127,19 +126,15 @@ export function BackButton({ href, backsTo, withParameter, className }: BackButt
     const content = <>&lt; Go back</>;
 
     return (
-        <Button
+        <Link
+            href={destination.href}
             type="plain"
             className={cn(
                 'pl-0 hover:bg-transparent text-muted-foreground hover:text-foreground hover:underline',
                 className,
             )}
-            asChild
         >
-            {destination.rawNavigation ? (
-                <a href={destination.href}>{content}</a>
-            ) : (
-                <Link href={destination.href}>{content}</Link>
-            )}
-        </Button>
+            {content}
+        </Link>
     );
 }
