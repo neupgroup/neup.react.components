@@ -23,11 +23,11 @@ const navButtonVariants = cva(
 export type NavButtonProps = ButtonProps & VariantProps<typeof navButtonVariants>
 
 const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
-  ({ className, active, type, ...props }, ref) => {
+  ({ className, active, variant, ...props }, ref) => {
     return (
       <Button
         ref={ref}
-        type={type ?? 'plain'}
+        variant={variant ?? 'plain'}
         data-active={active || undefined}
         className={cn(navButtonVariants({ active, className }), active && 'active')}
         {...props}

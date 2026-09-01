@@ -58,13 +58,13 @@ function build(target: string, backsTo?: string, forcedBasePath?: boolean, param
   return `${path}${query ? `?${query}` : ''}${suffix}`.replace('https://link.local', '');
 }
 
-export function Link({ takesTo, href, backsTo, backs, basePath, children, type, convey, size, alignment, className, ...props }: LinkProps) {
+export function Link({ takesTo, href, backsTo, backs, basePath, children, variant, convey, size, alignment, className, ...props }: LinkProps) {
   const target = takesTo ?? href ?? '#';
   const resolved = build(target, backsTo ?? backs, basePath);
   // Links are text links by default. Explicit style props still turn the link
   // into a link-button using the same variants as the Button component.
   const styledClassName = buttonVariants({
-    type: type ?? 'text',
+    variant: variant ?? 'text',
     convey,
     size,
     alignment,

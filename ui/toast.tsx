@@ -659,7 +659,7 @@ function VisualToast({
             !action &&
             canDismiss && (
               <ToastButton
-                type="outlined"
+                variant="outlined"
                 htmlType="button"
                 size="sm"
                 className="mt-1 h-7 justify-self-start px-2 text-xs"
@@ -678,7 +678,7 @@ function VisualToast({
                   ([buttonName, convey, destination], actionIndex) => (
                     <ToastButton
                       key={`${buttonName}-${actionIndex}`}
-                      type={
+                      variant={
                         visibleActions.length === 1 || actionIndex === 1
                           ? 'outlined'
                           : 'tinted'
