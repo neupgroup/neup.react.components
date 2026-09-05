@@ -9,7 +9,6 @@ type LinkButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   takesTo?: string;
   backsTo?: string;
   backs?: string;
-  basePath?: boolean;
   children?: ReactNode;
   preIcon?: ReactNode;
   postIcon?: ReactNode;
