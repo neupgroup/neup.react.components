@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
-import { cn } from '#/core/utils';
-import { H1, H2, H3, Subtitle } from '#/components/ui/text';
+import { cn } from '@neup/core/utils';
+import { H1, H2, H3, Subtitle } from '@neup/components/ui/text';
 
 type TitleSetLevel = 1 | 2 | 3;
 

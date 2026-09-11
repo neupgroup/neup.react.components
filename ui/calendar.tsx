@@ -4,8 +4,8 @@
 import * as React from "react"
 import { DayPicker } from "react-day-picker"
 
-import { cn } from "#/core/utils"
-import { Chevron } from "#/components/ui/chevron"
+import { cn } from "@neup/core/utils"
+import { Chevron } from "@neup/components/ui/chevron"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 

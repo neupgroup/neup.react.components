@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import { Toaster } from '#/components/ui/toast';
-import { ProgressBar } from '#/components/element/progressbar';
+import { Toaster } from '@neup/components/ui/toast';
+import { ProgressBar } from '@neup/components/element/progressbar';
 
 /**
  * ::neup.documentation::root-layout

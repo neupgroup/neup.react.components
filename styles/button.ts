@@ -1,4 +1,4 @@
-import { cn } from '#/core/utils'
+import { cn } from '@neup/core/utils'
 
 // Keep the legacy names accepted while callers migrate to the new style API.
 export type variant = 'solid' | 'tinted' | 'outlined' | 'plain' | 'text' | (string & {})

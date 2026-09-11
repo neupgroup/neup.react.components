@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import { cn } from '#/core/utils';
+import { cn } from '@neup/core/utils';
 
 export function H1({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return <h1 className={cn('text-4xl font-bold tracking-tight', className)} {...props} />;

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import NProgress from 'nprogress';
-import { cn } from '#/core/utils';
+import { cn } from '@neup/core/utils';
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number;

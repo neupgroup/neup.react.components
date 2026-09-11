@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { cn } from '#/core/utils';
-import { buttonVariants, type ButtonStyleProps } from '#/components/styles/button';
-import { Link } from '#/components/ui/link';
+import { cn } from '@neup/core/utils';
+import { buttonVariants, type ButtonStyleProps } from '@neup/components/styles/button';
+import { Link } from '@neup/components/ui/link';
 
 export type NavLinkProps = React.ComponentPropsWithoutRef<typeof Link> & ButtonStyleProps & { active?: boolean };
 

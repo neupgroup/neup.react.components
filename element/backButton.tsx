@@ -15,11 +15,11 @@ Pass `backsTo` as `/path`, `appname::/path`, or an absolute URL. `selectedServer
 ::end
 */
 
-import { Link } from '#/components/ui/link';
+import { Link } from '@neup/components/ui/link';
 import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { getEnvVariable } from '#/core/helpers/env';
-import { cn } from '#/core/utils';
+import { getEnvVariable } from '@neup/core/helpers/env';
+import { cn } from '@neup/core/utils';
 
 type BackButtonProps = {
     /** Backward-compatible alias for backsTo. */

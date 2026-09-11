@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Button } from '#/components/ui/button';
+import { Button } from '@neup/components/ui/button';
 
 type FileUploaderProps = {
   uploadPath?: string;

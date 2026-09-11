@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Textarea } from '#/components/ui/textarea';
+import { Textarea } from '@neup/components/ui/textarea';
 
 export const RichTextEditor = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<typeof Textarea>>(
   function RichTextEditor(props, ref) {
