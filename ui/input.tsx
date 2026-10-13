@@ -5,6 +5,7 @@
 import * as React from "react"
 
 import { cn } from "@neup/core/utils"
+import { navigateAdjacentField } from "@neup/components/ui/field-navigation"
 
 export type InputValidation =
   | "email"
@@ -85,6 +86,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       validationMessages,
       onChange,
       onBlur,
+      onKeyDown,
       id,
       ...props
     },
@@ -164,6 +166,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             onChange={handleChange}
             onBlur={handleBlur}
+            onKeyDown={(event) => {
+              navigateAdjacentField(event);
+              onKeyDown?.(event);
+            }}
             aria-invalid={displayError ? true : props["aria-invalid"]}
             aria-describedby={describedBy}
             className={cn(

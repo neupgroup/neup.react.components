@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@neup/core/utils'
+import { navigateAdjacentField } from '@neup/components/ui/field-navigation'
 
 export interface TextareaProps
   extends React.ComponentProps<'textarea'> {
@@ -12,7 +13,7 @@ export interface TextareaProps
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   TextareaProps
->(({ className, error, id, ...props }, ref) => {
+>(({ className, error, id, onKeyDown, ...props }, ref) => {
   const errorId = id && error ? `${id}-error` : undefined
   const describedBy = [props['aria-describedby'], errorId]
     .filter(Boolean)
@@ -24,6 +25,10 @@ const Textarea = React.forwardRef<
         {...props}
         id={id}
         ref={ref}
+        onKeyDown={(event) => {
+          navigateAdjacentField(event);
+          onKeyDown?.(event);
+        }}
         aria-invalid={error ? true : props['aria-invalid']}
         aria-describedby={describedBy}
         className={cn(
