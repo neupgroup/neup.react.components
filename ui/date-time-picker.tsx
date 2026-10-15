@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
-import { AnalogueClock, type AnalogueClockProps } from "@neup/components/ui/clock.analogue.tsx";
-import { Button } from "@neup/components/ui/button.tsx";
+import { AnalogueClock, type AnalogueClockProps } from "@neup/components/ui/clock.analogue";
+import { Button } from "@neup/components/ui/button";
 
 export type DateTimePickerKind = "deadline" | "when";
 
