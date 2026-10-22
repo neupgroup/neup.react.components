@@ -13,8 +13,8 @@ export function NavLink({ active = false, className, variant = 'plain', ...props
       {...props}
       className={cn(
         buttonVariants({ variant, alignment: 'left', className }),
-        'text-muted-foreground transition-colors duration-200 hover:text-primary',
-        active && 'bg-primary/20 text-primary hover:bg-primary/30',
+        'text-muted-foreground transition-colors duration-600 hover:text-primary-hover active:text-primary-active',
+        active && 'bg-interaction-active text-primary hover:bg-interaction-active-hover hover:text-primary-hover active:bg-interaction-active-press active:text-primary-active',
       )}
       aria-current={active ? 'page' : undefined}
     />
