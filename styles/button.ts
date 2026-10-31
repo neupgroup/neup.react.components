@@ -10,7 +10,7 @@ export interface ButtonStyleProps { variant?: variant; convey?: convey; size?: s
 
 const variants: Record<variant, string> = {
   solid: 'bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-press',
-  tinted: 'border border-primary/20 bg-primary/10 text-primary hover:bg-interaction-hover active:bg-interaction-press',
+  tinted: 'border border-primary/20 bg-primary/5 text-primary hover:bg-primary/10 active:bg-primary/15',
   outlined: 'border border-primary bg-transparent text-primary hover:bg-interaction-hover active:bg-interaction-press',
   plain: 'border border-transparent bg-transparent text-foreground hover:bg-interaction-hover hover:text-primary-hover active:bg-interaction-press active:text-primary-active',
   text: 'border border-transparent bg-transparent text-foreground hover:bg-interaction-hover hover:text-primary-hover active:bg-interaction-press active:text-primary-active',
