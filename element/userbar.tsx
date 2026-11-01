@@ -1,5 +1,5 @@
 import type { HTMLAttributes } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '@neup/components/ui/avatar';
+import { LetterImage } from '@neup/components/ui/letterImage';
 
 export interface UserbarProps extends HTMLAttributes<HTMLDivElement> {
   displayName: string;
@@ -9,7 +9,7 @@ export interface UserbarProps extends HTMLAttributes<HTMLDivElement> {
 
 function normalizeDisplayImage(displayImage?: string | null): string | undefined {
   const image = displayImage?.trim();
-  if (!image) return undefined;
+  if (!image || image.includes('/_plain_')) return undefined;
 
   if (/^(https?:|data:|blob:|\/\/)/i.test(image) || image.startsWith('/')) {
     return image;
@@ -41,17 +41,13 @@ export function Userbar({
           {neupid ? `@${neupid}` : null}
         </p>
       </div>
-      <Avatar
-        className="h-8 w-8 transition-shadow duration-200 group-hover:ring-1 group-hover:ring-foreground/10"
-        displayName={displayName}
-        neupid={neupid}
-      >
-        {imageSrc ? (
-          <AvatarImage className="visible" src={imageSrc} alt={name} />
-        ) : (
-          <AvatarFallback />
-        )}
-      </Avatar>
+      <LetterImage
+        src={imageSrc}
+        initials={name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('')}
+        alt={name}
+        className="h-8 w-8 rounded-full transition-shadow duration-200 group-hover:ring-1 group-hover:ring-foreground/10"
+        fontSize="0.75rem"
+      />
     </div>
   );
 }
