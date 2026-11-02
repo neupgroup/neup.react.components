@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -7,6 +9,14 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-dialog:^1.1.6",
+  "class-variance-authority:^0.7.1",
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
 
 const Sheet = SheetPrimitive.Root
 

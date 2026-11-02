@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -9,6 +11,13 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { cn } from "@neup/core/utils"
 import { Button } from "@neup/components/ui/button"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "embla-carousel-react:^8.6.0",
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>

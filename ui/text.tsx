@@ -1,6 +1,11 @@
 import type { HTMLAttributes } from 'react';
 import { cn } from '@neup/core/utils';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 export function H1({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return <h1 className={cn('text-4xl font-bold tracking-tight', className)} {...props} />;
 }

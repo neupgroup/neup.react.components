@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -5,6 +7,12 @@ import * as React from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-tooltip:^1.1.8",
+  "react:^19.2.4"
+] as const;
 
 const TooltipProvider = TooltipPrimitive.Provider
 

@@ -1,8 +1,16 @@
+
+
 //to be remade
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "class-variance-authority:^0.7.1",
+  "react:^19.2.4"
+] as const;
 
 const alertVariants = cva(
   "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",

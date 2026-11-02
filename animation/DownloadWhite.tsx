@@ -4,6 +4,11 @@ import * as React from 'react';
 
 import Download, { type DownloadProps } from './Download';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 /*
 ::neup.documentation::download-animation-white
 ::title White Download Animation

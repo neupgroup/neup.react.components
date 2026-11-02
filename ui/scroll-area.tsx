@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -5,6 +7,12 @@ import * as React from "react"
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-scroll-area:^1.2.3",
+  "react:^19.2.4"
+] as const;
 
 const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,

@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -5,6 +7,12 @@ import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-popover:^1.1.6",
+  "react:^19.2.4"
+] as const;
 
 const Popover = PopoverPrimitive.Root
 

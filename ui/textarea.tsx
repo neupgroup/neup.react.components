@@ -1,9 +1,15 @@
+
 //to be remade
 
 import * as React from 'react'
 
 import { cn } from '@neup/core/utils'
 import { navigateAdjacentField } from '@neup/components/ui/field-navigation'
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
 
 export interface TextareaProps
   extends React.ComponentProps<'textarea'> {
@@ -27,6 +33,7 @@ const Textarea = React.forwardRef<
         ref={ref}
         onKeyDown={(event) => {
           navigateAdjacentField(event);
+
           onKeyDown?.(event);
         }}
         aria-invalid={error ? true : props['aria-invalid']}

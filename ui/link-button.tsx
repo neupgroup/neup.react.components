@@ -4,6 +4,11 @@ import type { AnchorHTMLAttributes, ReactNode } from 'react';
 import { buttonVariants, type ButtonStyleProps } from '@neup/components/styles/button';
 import { Link } from './link';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 type LinkButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   href?: string;
   takesTo?: string;

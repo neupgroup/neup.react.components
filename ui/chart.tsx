@@ -1,3 +1,4 @@
+
 //to be remade
 "use client"
 
@@ -5,6 +6,12 @@ import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4",
+  "recharts:^2.15.1"
+] as const;
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
@@ -15,6 +22,7 @@ export type ChartConfig = {
     icon?: React.ComponentType
   } & (
     | { color?: string; theme?: never }
+
     | { color?: never; theme: Record<keyof typeof THEMES, string> }
   )
 }

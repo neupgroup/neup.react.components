@@ -2,6 +2,11 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import { cn } from '@neup/core/utils';
 import { H1, H2, H3, Subtitle } from '@neup/components/ui/text';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 type TitleSetLevel = 1 | 2 | 3;
 
 export interface TitleSetProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {

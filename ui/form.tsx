@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -15,6 +17,14 @@ import {
 
 import { cn } from "@neup/core/utils"
 import { Label } from "@neup/components/ui/label"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-label:^2.1.2",
+  "@radix-ui/react-slot:^1.2.3",
+  "react-hook-form:^7.54.2",
+  "react:^19.2.4"
+] as const;
 
 const Form = FormProvider
 

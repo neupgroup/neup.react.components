@@ -1,6 +1,11 @@
 import type { HTMLAttributes } from 'react';
 import { LetterImage } from '@neup/components/ui/letterImage';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 export interface UserbarProps extends HTMLAttributes<HTMLDivElement> {
   displayName: string;
   displayImage?: string | null;

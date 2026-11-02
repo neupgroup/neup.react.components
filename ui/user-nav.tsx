@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { Userbar } from '@neup/components/element/userbar';
 import { useSession } from '@neup/core/providers/session';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "next:^16.2.2",
+  "react:^19.2.4"
+] as const;
+
 export function UserNav() {
   const { user } = useSession();
 

@@ -1,7 +1,14 @@
+
+
 //to be remade
 import * as React from "react"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
 
 const Table = React.forwardRef<
   HTMLTableElement,

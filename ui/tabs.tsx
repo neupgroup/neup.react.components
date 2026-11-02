@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -5,6 +7,12 @@ import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-tabs:^1.1.3",
+  "react:^19.2.4"
+] as const;
 
 const Tabs = TabsPrimitive.Root
 

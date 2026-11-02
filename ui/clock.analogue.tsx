@@ -2,6 +2,11 @@
 
 import { useRef } from "react";
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 export type AnalogueClockMode = "hour" | "minute";
 
 export type AnalogueClockProps = {

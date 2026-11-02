@@ -6,6 +6,13 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import NProgress from 'nprogress';
 import { cn } from '@neup/core/utils';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "next:^16.2.2",
+  "nprogress:^0.2.0",
+  "react:^19.2.4"
+] as const;
+
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: number;
 }

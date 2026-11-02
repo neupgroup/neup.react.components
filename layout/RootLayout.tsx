@@ -2,6 +2,11 @@ import { Suspense } from 'react';
 import { Toaster } from '@neup/components/ui/toast';
 import { ProgressBar } from '@neup/components/element/progressbar';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 /**
  * ::neup.documentation::root-layout
  *

@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -6,6 +8,13 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-dropdown-menu:^2.1.6",
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 

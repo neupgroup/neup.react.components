@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -6,6 +8,12 @@ import { DayPicker } from "react-day-picker"
 
 import { cn } from "@neup/core/utils"
 import { Chevron } from "@neup/components/ui/chevron"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "react-day-picker:^9.14.0",
+  "react:^19.2.4"
+] as const;
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 

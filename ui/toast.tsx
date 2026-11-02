@@ -25,6 +25,12 @@ import {
   type ButtonProps,
 } from '@neup/components/ui/button'
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
+
 /*
 |--------------------------------------------------------------------------
 | Stack config
@@ -900,6 +906,7 @@ export function Toaster() {
         @keyframes neup-toast-enter {
           0% {
             opacity: 0;
+
             transform: translate3d(115%, 0, 0) scale(0.98);
           }
 

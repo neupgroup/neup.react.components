@@ -3,6 +3,12 @@
 import NextLink from 'next/link';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "next:^16.2.2",
+  "react:^19.2.4"
+] as const;
+
 type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   takesTo?: string;
   href?: string;

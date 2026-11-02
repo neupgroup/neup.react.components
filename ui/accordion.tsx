@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -6,6 +8,13 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-accordion:^1.2.3",
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
 
 const Accordion = AccordionPrimitive.Root
 

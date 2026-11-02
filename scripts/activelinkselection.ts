@@ -1,3 +1,9 @@
+
+
+
+// External packages required by this component or page.
+const requiredPackages = [] as const;
+
 export type ActiveLinkItem = string | { href: string };
 
 /*

@@ -1,5 +1,10 @@
 import type { CSSProperties, HTMLAttributes } from 'react';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 export type LetterImageProps = HTMLAttributes<HTMLSpanElement> & {
   src?: string | null;
   initials?: string;

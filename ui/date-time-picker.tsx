@@ -7,6 +7,13 @@ import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { AnalogueClock, type AnalogueClockProps } from "@neup/components/ui/clock.analogue";
 import { Button } from "@neup/components/ui/button";
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "lucide-react:^0.475.0",
+  "react-dom:^19.2.4",
+  "react:^19.2.4"
+] as const;
+
 export type DateTimePickerKind = "deadline" | "when";
 
 export type DateTimePickerProps = {

@@ -1,3 +1,4 @@
+
 //to be remade
 
 "use client"
@@ -6,6 +7,11 @@ import * as React from "react"
 
 import { cn } from "@neup/core/utils"
 import { navigateAdjacentField } from "@neup/components/ui/field-navigation"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
 
 export type InputValidation =
   | "email"
@@ -168,6 +174,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onBlur={handleBlur}
             onKeyDown={(event) => {
               navigateAdjacentField(event);
+
               onKeyDown?.(event);
             }}
             aria-invalid={displayError ? true : props["aria-invalid"]}

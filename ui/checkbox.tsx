@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -6,6 +8,13 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { Check } from "lucide-react"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-checkbox:^1.1.4",
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,

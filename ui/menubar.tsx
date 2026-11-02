@@ -1,3 +1,5 @@
+
+
 //to be remade
 "use client"
 
@@ -6,6 +8,13 @@ import * as MenubarPrimitive from "@radix-ui/react-menubar"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-menubar:^1.1.6",
+  "lucide-react:^0.475.0",
+  "react:^19.2.4"
+] as const;
 
 function MenubarMenu({
   ...props

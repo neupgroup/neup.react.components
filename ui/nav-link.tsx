@@ -5,6 +5,11 @@ import { cn } from '@neup/core/utils';
 import { buttonVariants, type ButtonStyleProps } from '@neup/components/styles/button';
 import { Link } from '@neup/components/ui/link';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 export type NavLinkProps = React.ComponentPropsWithoutRef<typeof Link> & ButtonStyleProps & { active?: boolean };
 
 export function NavLink({ active = false, className, variant = 'plain', ...props }: NavLinkProps) {

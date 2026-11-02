@@ -21,6 +21,12 @@ import { useSearchParams } from 'next/navigation';
 import { getEnvVariable } from '@neup/core/helpers/env';
 import { cn } from '@neup/core/utils';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "next:^16.2.2",
+  "react:^19.2.4"
+] as const;
+
 type BackButtonProps = {
     /** Backward-compatible alias for backsTo. */
     href?: string;

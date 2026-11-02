@@ -4,6 +4,11 @@ import * as React from 'react';
 
 import TickMark, { type TickMarkProps } from './TickMark';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 /*
 ::neup.documentation::tick-mark-white
 ::title White Tick Mark

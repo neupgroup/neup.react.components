@@ -4,6 +4,11 @@ import * as React from 'react';
 
 import { Button } from '@neup/components/ui/button';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 type FileUploaderProps = {
   uploadPath?: string;
   acceptedFileTypes?: string;

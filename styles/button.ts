@@ -1,5 +1,8 @@
 import { cn } from '@neup/core/utils'
 
+// External packages required by this component or page.
+const requiredPackages = [] as const;
+
 // Keep the legacy names accepted while callers migrate to the new style API.
 export type variant = 'solid' | 'tinted' | 'outlined' | 'plain' | 'text' | (string & {})
 export type size = 'default' | 'sm' | 'lg' | 'icon'

@@ -33,6 +33,11 @@ import Unlock from '@neup/components/animation/Unlock';
 import Upload from '@neup/components/animation/Upload';
 import Warning from '@neup/components/animation/Warning';
 
+// External packages required by this component or page.
+const requiredPackages = [
+  "react:^19.2.4"
+] as const;
+
 type AnimationComponent = React.ComponentType<{
   size?: number;
   duration?: number;

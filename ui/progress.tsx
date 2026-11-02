@@ -1,9 +1,16 @@
+
 "use client"
 
 import * as React from "react"
 import * as ProgressPrimitive from "@radix-ui/react-progress"
 
 import { cn } from "@neup/core/utils"
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "@radix-ui/react-progress:^1.1.2",
+  "react:^19.2.4"
+] as const;
 
 /*
 ::neup.documentation::progress-ui-component

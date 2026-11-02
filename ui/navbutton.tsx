@@ -1,3 +1,5 @@
+
+
 //to be remade
 
 import * as React from 'react'
@@ -5,6 +7,12 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@neup/core/utils'
 import { Button, type ButtonProps } from '@neup/components/ui/button'
 import { LinkButton } from '@neup/components/ui/link-button'
+
+// External packages required by this component or page.
+const requiredPackages = [
+  "class-variance-authority:^0.7.1",
+  "react:^19.2.4"
+] as const;
 
 const navButtonVariants = cva(
   'inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium text-muted-foreground transition-colors duration-600 ease-out hover:bg-interaction-hover hover:text-primary-hover active:bg-interaction-press active:text-primary-active focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
