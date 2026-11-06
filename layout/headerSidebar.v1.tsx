@@ -138,7 +138,7 @@ export default function HeaderSidebarLayout({ children, sidebarlinks, pofileBarI
 
   return (
     <RootLayout>
-      <header className="sticky top-0 z-40 flex h-16 items-center border-b bg-primary-1000 shadow-[0_16px_40px_rgba(15,23,42,0.10)]">
+      <header className="sticky top-0 z-40 flex h-16 items-center bg-primary-1000 shadow-[0_16px_40px_rgba(15,23,42,0.10)]">
         <div className="mx-auto flex w-full max-w-[1440px] items-center px-4 sm:px-6 md:px-8">
           <div className="flex items-center gap-4 lg:hidden">
             <Button variant="plain" size="icon" onClick={toggleMobileMenu} aria-label="Toggle navigation" aria-expanded={isMobileMenuOpen}>
