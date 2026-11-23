@@ -3,11 +3,12 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { Button } from '@neup/components/ui/button';
-import { ComposeMediaBlocks } from './ComposeImageBlocks';
+import { ComposeMediaBlocks, createImageBlock } from './ComposeImageBlocks';
 import { EditorMenu } from './editorMenu';
 import type { EditorMenuAction, EditorMenuOption } from './editorMenu';
 import { EditorSurface } from './EditorSurface';
 import { snapSelectionRange } from './SmartSelectionBehavior';
+import styles from './editor.module.css';
 
 const defaultMenuOptions: EditorMenuOption[] = [
   { action: 'h2', label: 'Heading 2', icon: 'H2' },
@@ -289,16 +290,7 @@ export function RichTextEditor({
       return;
     }
     if (action === 'image') {
-      const figure = document.createElement('figure');
-      figure.dataset.editorBlock = 'image';
-      figure.dataset.mediaKind = 'image';
-      figure.contentEditable = 'false';
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.dataset.imagePicker = 'true';
-      button.innerHTML = '<span>＋ Add image</span>';
-      figure.append(button);
-      insertSlashBlock(figure);
+      insertSlashBlock(createImageBlock());
     } else if (action === 'audio') {
       const src = window.prompt('Audio URL');
       if (src?.trim()) {
@@ -618,7 +610,7 @@ export function RichTextEditor({
         placeholder={placeholder}
         empty={!html.trim()}
         style={editorStyle}
-        className={`w-full border-0 bg-transparent px-0 font-serif text-[20px] font-medium leading-8 text-slate-600 outline-none empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)] ${className}`}
+        className={`${styles.editor} min-h-0 w-full border-0 bg-transparent px-0 font-serif text-[20px] font-medium leading-8 text-slate-600 outline-none empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)] ${className}`}
         onInput={(event) => {
           publishChange(readEditorHtml(event.currentTarget));
           requestAnimationFrame(updateSlashMenu);

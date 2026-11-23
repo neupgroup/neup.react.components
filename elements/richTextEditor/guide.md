@@ -46,4 +46,6 @@ The editor handles Enter as a paragraph break and moves the caret between neighb
 
 Use `slashOptions` and `onSlashAction` for custom `/` commands, and `children` for developer- or app-specific components that should sit inside the editor frame. For deeper integrations, the package also exports lower-level building blocks: `EditorSurface`, `EditorMenu`, `ComposeMediaBlocks`, `createImageBlock`, and `snapSelectionRange`. These are optional; a normal consumer only needs `RichTextEditor`.
 
+Business block definitions and callout helpers are available from the same entry point: `businessBlockOptions`, `createBusinessBlock`, `BusinessBlockType`, `calloutBlockTypes`, `calloutBlockMetadata`, `createCalloutBlock`, `setCalloutBlockType`, `isCalloutBlockType`, and `CalloutBlockType`.
+
 The component handles editor presentation and editing controls. The consuming app remains responsible for storing the HTML and applying any application-specific validation or sanitization before saving or rendering it.
