@@ -1,6 +1,6 @@
 # Shared editor building blocks
 
-Import shared editor behavior and UI from `@neup/components/editor`.
+Import shared editor behavior and UI from `@neup/components/elements/richTextEditor`.
 
 - `EditorSurface` owns the contenteditable textbox and accepts app-provided focus, input, keyboard, paste, and other DOM event hooks through its props.
 - `EditorMenu` receives an app-defined `EditorMenuOption[]`, active action IDs, callbacks, and optional callout choices.
