@@ -1,10 +1,9 @@
-# Shared editor building blocks
+# Rich text editor
 
-Import shared editor behavior and UI from `@neup/components/elements/richTextEditor`.
+Use `RichTextEditor` from this directory's public entry point for the complete editor UI:
 
-- `EditorSurface` owns the contenteditable textbox and accepts app-provided focus, input, keyboard, paste, and other DOM event hooks through its props.
-- `EditorMenu` receives an app-defined `EditorMenuOption[]`, active action IDs, callbacks, and optional callout choices.
-- `ComposeMediaBlocks` receives editor refs, a content reader, and a content change callback.
-- `snapSelectionRange` provides shared word-aware selection behavior.
+```tsx
+import { RichTextEditor } from '@neup/components/elements/richTextEditor';
+```
 
-Keep app-specific block types, menu choices, persistence, permissions, and submission logic in the consuming application.
+See [guide.md](./guide.md) for props, controlled and uncontrolled usage, editor height, toolbar customization, and extension points. Lower-level UI primitives remain exported for applications that need custom editor behavior.

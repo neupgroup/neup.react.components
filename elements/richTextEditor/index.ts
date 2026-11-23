@@ -7,3 +7,5 @@ export type { EditorMenuAction, EditorMenuOption } from './editorMenu';
 export { EditorSurface } from './EditorSurface';
 export type { EditorBehaviorHooks, EditorSurfaceProps } from './EditorSurface';
 export { snapSelectionRange } from './SmartSelectionBehavior';
+export { RichTextEditor, default } from './RichTextEditor';
+export type { RichTextEditorProps } from './RichTextEditor';

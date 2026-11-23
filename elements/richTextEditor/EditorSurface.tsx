@@ -1,6 +1,6 @@
 'use client';
 
-import type { HTMLAttributes, RefObject } from 'react';
+import type { CSSProperties, HTMLAttributes, RefObject } from 'react';
 
 export type EditorBehaviorHooks = Pick<
   HTMLAttributes<HTMLDivElement>,
@@ -16,6 +16,7 @@ export type EditorSurfaceProps = Omit<
   empty: boolean;
   editorRef: RefObject<HTMLDivElement | null>;
   placeholder: string;
+  style?: CSSProperties;
 };
 
 // Provide the shared contenteditable surface while applications supply editor behavior hooks.
@@ -25,6 +26,7 @@ export function EditorSurface({
   editorRef,
   empty,
   placeholder,
+  style,
   ...behaviorHooks
 }: EditorSurfaceProps) {
   return (
@@ -39,6 +41,7 @@ export function EditorSurface({
       data-placeholder={placeholder}
       data-empty={empty}
       className={className}
+      style={style}
       {...behaviorHooks}
     />
   );
