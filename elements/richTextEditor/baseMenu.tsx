@@ -42,14 +42,14 @@ export function BaseMenu({
       role="toolbar"
       aria-label={ariaLabel}
       style={style}
-      className={`absolute z-40 flex max-w-[calc(100vw-1rem)] rounded-md bg-slate-950 text-white shadow-xl ${
+      className={`absolute z-40 flex max-w-[calc(100vw-1rem)] rounded-md bg-muted text-foreground shadow-xl ${
         orientation === 'horizontal'
           ? 'h-11 items-center gap-1 overflow-x-auto px-2'
           : 'w-72 flex-col gap-1 p-2'
       } ${className}`}
     >
       {children}
-      <span className="absolute left-1/2 top-full h-3 w-3 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-slate-950" />
+      <span className="absolute left-1/2 top-full h-3 w-3 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-muted" />
     </div>
   );
 }
@@ -75,8 +75,8 @@ export function BaseMenuButton({
       }}
       className={`grid size-8 place-items-center rounded leading-none transition-colors duration-200 ${
         active
-          ? 'bg-white text-slate-950 shadow-sm hover:bg-slate-200'
-          : 'text-white hover:bg-white/10'
+          ? 'bg-background text-foreground shadow-sm hover:bg-muted'
+          : 'text-foreground hover:bg-accent'
       } ${className}`}
     >
       {children}
@@ -86,7 +86,7 @@ export function BaseMenuButton({
 
 // Render a separator between menu groups.
 export function BaseMenuSeparator() {
-  return <span className="mx-1 h-6 w-px bg-white/20" aria-hidden="true" />;
+  return <span className="mx-1 h-6 w-px bg-border" aria-hidden="true" />;
 }
 
 interface BaseMenuOptionProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -118,16 +118,16 @@ export function BaseMenuOption({
       }}
       className={`flex w-full items-start gap-3 rounded px-3 py-2 text-left transition-colors duration-200 ${
         active
-          ? 'bg-white text-slate-950 shadow-sm hover:bg-slate-200'
-          : 'text-white hover:bg-white/10'
+          ? 'bg-background text-foreground shadow-sm hover:bg-muted'
+          : 'text-foreground hover:bg-accent'
       }`}
     >
-      <span className="grid size-7 shrink-0 place-items-center rounded bg-white/10 text-sm font-bold">
+      <span className="grid size-7 shrink-0 place-items-center rounded bg-accent text-sm font-bold">
         {icon}
       </span>
       <span className="min-w-0">
         <span className="block text-sm font-semibold leading-5">{title}</span>
-        <span className={`block text-xs leading-4 ${active ? 'text-slate-600' : 'text-slate-300'}`}>
+        <span className="block text-xs leading-4 text-muted-foreground">
           {description}
         </span>
       </span>

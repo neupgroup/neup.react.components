@@ -17,7 +17,7 @@ const requiredPackages = [
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen w-full bg-white text-foreground">
+    <div className="min-h-screen w-full bg-background text-foreground">
       <style dangerouslySetInnerHTML={{ __html: `
         #nprogress { pointer-events: none; }
         #nprogress .bar {

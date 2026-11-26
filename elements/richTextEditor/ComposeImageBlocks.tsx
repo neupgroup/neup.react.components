@@ -316,7 +316,7 @@ function ComposeMediaBlockControls({
           aria-label="Change image"
           onMouseDown={(event) => event.preventDefault()}
           onClick={onChange}
-          className="grid size-8 place-items-center rounded-full border border-slate-200 bg-white/95 text-slate-400 shadow-sm transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+          className="grid size-8 place-items-center rounded-full border border-border bg-background/95 text-muted-foreground shadow-sm transition-colors hover:border-informatic-200 hover:bg-informatic-50 hover:text-informatic"
         >
           <svg
             aria-hidden="true"
@@ -340,7 +340,7 @@ function ComposeMediaBlockControls({
           aria-label="Remove image block"
           onMouseDown={(event) => event.preventDefault()}
           onClick={onRemove}
-          className="grid size-8 place-items-center rounded-full border border-slate-200 bg-white/95 text-xl leading-none text-slate-400 shadow-sm transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+          className="grid size-8 place-items-center rounded-full border border-border bg-background/95 text-xl leading-none text-muted-foreground shadow-sm transition-colors hover:border-danger-200 hover:bg-danger-50 hover:text-danger"
         >
           ×
         </Button>
@@ -372,7 +372,7 @@ function ComposeVideoBlockControls({
           aria-expanded={isSettingsOpen}
           onMouseDown={(event) => event.preventDefault()}
           onClick={onToggleSettings}
-          className="grid size-8 place-items-center rounded-full border border-slate-200 bg-white/95 text-slate-400 shadow-sm transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+          className="grid size-8 place-items-center rounded-full border border-border bg-background/95 text-muted-foreground shadow-sm transition-colors hover:border-informatic-200 hover:bg-informatic-50 hover:text-informatic"
         >
           <svg
             aria-hidden="true"
@@ -394,7 +394,7 @@ function ComposeVideoBlockControls({
           aria-label="Remove video block"
           onMouseDown={(event) => event.preventDefault()}
           onClick={onRemove}
-          className="grid size-8 place-items-center rounded-full border border-slate-200 bg-white/95 text-xl leading-none text-slate-400 shadow-sm transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+          className="grid size-8 place-items-center rounded-full border border-border bg-background/95 text-xl leading-none text-muted-foreground shadow-sm transition-colors hover:border-danger-200 hover:bg-danger-50 hover:text-danger"
         >
           ×
         </Button>
@@ -418,10 +418,10 @@ function ComposeVideoSettingsMenu({
         top: position.top + 40,
         left: position.left,
       }}
-      className="absolute z-20 w-56 border border-slate-200 bg-white p-3 text-sm text-slate-700 shadow-lg"
+      className="absolute z-20 w-56 border border-border bg-background p-3 text-sm text-foreground shadow-lg"
     >
       <label className="block">
-        <span className="mb-1 block font-medium text-slate-600">Start at</span>
+        <span className="mb-1 block font-medium text-muted-foreground">Start at</span>
         <input
           type="number"
           min="0"
@@ -429,18 +429,18 @@ function ComposeVideoSettingsMenu({
           value={startAt}
           onChange={(event) => onStartAtChange(event.currentTarget.value)}
           onMouseDown={(event) => event.stopPropagation()}
-          className="h-9 w-full border border-slate-200 px-3 text-sm outline-none focus:border-blue-300"
+          className="h-9 w-full border border-border px-3 text-sm outline-none focus:border-informatic-300"
         />
       </label>
 
-      <label className="mt-3 flex items-center justify-between gap-3 font-medium text-slate-600">
+      <label className="mt-3 flex items-center justify-between gap-3 font-medium text-muted-foreground">
         <span>Autoplay</span>
         <input
           type="checkbox"
           checked={autoplay}
           onChange={(event) => onAutoplayChange(event.currentTarget.checked)}
           onMouseDown={(event) => event.stopPropagation()}
-          className="size-4 accent-blue-600"
+          className="size-4 accent-primary"
         />
       </label>
     </div>

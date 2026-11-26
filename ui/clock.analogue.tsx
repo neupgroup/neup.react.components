@@ -59,10 +59,10 @@ export function AnalogueClock({
   const hasSelection = mode === "hour" ? hour !== null : minute !== null;
 
   return (
-    <div className={`mx-auto w-full max-w-80 rounded-2xl bg-white ${className}`}>
+    <div className={`mx-auto w-full max-w-80 rounded-2xl bg-background ${className}`}>
       <div
         ref={faceRef}
-        className="relative aspect-[1.18/1] w-full touch-none select-none rounded-2xl bg-[#F1F5F9]"
+        className="relative aspect-[1.18/1] w-full touch-none select-none rounded-2xl bg-muted"
         role="group"
         aria-label={mode === "hour" ? "Clock hours" : "Clock minutes"}
         onPointerDown={(event) => {
@@ -83,12 +83,12 @@ export function AnalogueClock({
         onLostPointerCapture={() => { dragging.current = false; }}
       >
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
-          {hasSelection && <line x1="50" y1="50" x2={handX} y2={handY} stroke="#4F9CF9" strokeWidth="1" />}
-          <circle cx="50" cy="50" r="2.5" fill="#4F9CF9" />
+          {hasSelection && <line x1="50" y1="50" x2={handX} y2={handY} stroke="hsl(var(--primary))" strokeWidth="1" />}
+          <circle cx="50" cy="50" r="2.5" fill="hsl(var(--primary))" />
         </svg>
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#4F9CF9] ${hasSelection ? "" : "hidden"}`}
+          className={`pointer-events-none absolute h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-xl bg-primary ${hasSelection ? "" : "hidden"}`}
           style={{ left: `${handX}%`, top: `${handY}%` }}
         />
         {Array.from({ length: 12 }, (_, index) => {
@@ -110,7 +110,7 @@ export function AnalogueClock({
                 onSelectionEnd?.();
               }}
               style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
-              className={`absolute z-10 flex h-9 min-w-9 items-center justify-center rounded-xl px-1 text-base font-medium tabular-nums transition-colors ${selected ? "bg-[#4F9CF9] text-white" : "text-[#334155] hover:bg-[#E2E8F0]"}`}
+              className={`absolute z-10 flex h-9 min-w-9 items-center justify-center rounded-xl px-1 text-base font-medium tabular-nums transition-colors ${selected ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted"}`}
             >
               {label}
             </button>

@@ -238,7 +238,7 @@ export const ToastAction =
         ref={ref}
         type="button"
         className={cn(
-          'inline-flex h-8 items-center justify-center rounded-md border border-current/20 px-3 text-sm font-medium transition-colors hover:bg-black/5',
+          'inline-flex h-8 items-center justify-center rounded-md border border-current/20 px-3 text-sm font-medium transition-colors hover:bg-foreground/5',
           className
         )}
         {...props}
@@ -267,7 +267,7 @@ export const ToastClose =
         type="button"
         aria-label="Close notification"
         className={cn(
-          'absolute right-2 top-2 rounded-md p-1 text-current/60 transition-colors hover:bg-black/10 hover:text-current',
+          'absolute right-2 top-2 rounded-md p-1 text-current/60 transition-colors hover:bg-foreground/10 hover:text-current',
           className
         )}
         {...props}
@@ -352,42 +352,30 @@ type VisualToastProps = {
 }
 
 const toastConveyClasses: Record<ToastConvey, string> = {
-  danger:
-    'bg-gradient-to-r from-red-50/45 via-white/80 to-white/95 text-red-950',
-  dangerous:
-    'bg-gradient-to-r from-red-50/45 via-white/80 to-white/95 text-red-950',
-  warning:
-    'bg-gradient-to-r from-orange-50/45 via-white/80 to-white/95 text-orange-950',
-  success:
-    'bg-gradient-to-r from-emerald-50/45 via-white/80 to-white/95 text-emerald-950',
-  info:
-    'bg-gradient-to-r from-blue-50/45 via-white/80 to-white/95 text-blue-950',
-  none:
-    'bg-gradient-to-r from-blue-50/45 via-white/80 to-white/95 text-blue-950',
+  danger: 'bg-popover text-foreground border-danger-200',
+  dangerous: 'bg-popover text-foreground border-danger-200',
+  warning: 'bg-popover text-foreground border-warning-200',
+  success: 'bg-popover text-foreground border-success-200',
+  info: 'bg-popover text-foreground border-informatic-200',
+  none: 'bg-popover text-foreground border-informatic-200',
 }
 
 const toastConveyBackgrounds: Record<ToastConvey, string> = {
-  danger:
-    'linear-gradient(to right, rgba(254, 242, 242, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
-  dangerous:
-    'linear-gradient(to right, rgba(254, 242, 242, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
-  warning:
-    'linear-gradient(to right, rgba(255, 247, 237, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
-  success:
-    'linear-gradient(to right, rgba(236, 253, 245, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
-  info:
-    'linear-gradient(to right, rgba(239, 246, 255, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
-  none:
-    'linear-gradient(to right, rgba(239, 246, 255, .45), rgba(255, 255, 255, .8), rgba(255, 255, 255, .95))',
+  danger: 'hsl(var(--popover))',
+  dangerous: 'hsl(var(--popover))',
+  warning: 'hsl(var(--popover))',
+  success: 'hsl(var(--popover))',
+  info: 'hsl(var(--popover))',
+  none: 'hsl(var(--popover))',
 }
 
 const toastConveyTextColors: Record<ToastConvey, string> = {
-  danger: '#450a0a',
-  dangerous: '#450a0a',
-  warning: '#431407',
-  success: '#052e16',
-  info: '#172554',
-  none: '#172554',
+  danger: 'hsl(var(--popover-foreground))',
+  dangerous: 'hsl(var(--popover-foreground))',
+  warning: 'hsl(var(--popover-foreground))',
+  success: 'hsl(var(--popover-foreground))',
+  info: 'hsl(var(--popover-foreground))',
+  none: 'hsl(var(--popover-foreground))',
 }
 
 function getToastConvey(
@@ -552,7 +540,7 @@ function VisualToast({
         /*
          * Apple-ish floating surface.
          */
-        'border border-black/[0.04] backdrop-blur-2xl backdrop-saturate-150',
+        'border border-border backdrop-blur-2xl backdrop-saturate-150',
 
         /*
          * Movement between stack positions.
@@ -561,8 +549,8 @@ function VisualToast({
         'ease-[cubic-bezier(0.22,1,0.36,1)]',
 
         /*
-         * Light convey gradients keep the surface soft while making the
-         * toast's meaning immediately recognizable.
+         * Theme-aware surfaces and status borders keep toasts readable
+         * in light and dark appearances.
          */
         toastConveyClasses[toastConvey],
 
@@ -754,8 +742,8 @@ function VisualToast({
               'pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1 origin-left',
               state === 'success' && 'bg-emerald-500',
               state === 'warning' && 'bg-orange-500',
-              (state === 'error' || state === 'danger' || variant === 'destructive') && 'bg-red-500',
-              (!state || state === 'info') && variant !== 'destructive' && 'bg-slate-400',
+              (state === 'error' || state === 'danger' || variant === 'destructive') && 'bg-danger',
+              (!state || state === 'info') && variant !== 'destructive' && 'bg-primary',
             )}
             style={{
               animation: `neup-toast-progress ${dismissAfter}s linear forwards`,

@@ -16,7 +16,7 @@ export type HeaderAddSidebarV1Props = {
 // Place the header above a page whose content area includes a sidebar.
 export function HeaderAddSidebarV1({ header, sidebar, children }: HeaderAddSidebarV1Props) {
   return (
-    <div className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+    <div className="min-h-screen w-full bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
       <HeaderV1>{header}</HeaderV1>
       <SidebarV1 sidebar={sidebar}>{children}</SidebarV1>
     </div>

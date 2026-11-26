@@ -16,7 +16,7 @@ export function SidebarV1({ sidebar, children }: SidebarV1Props) {
     <div className="mx-auto flex min-h-[calc(100dvh-var(--site-header-height))] w-full max-w-[1440px] items-start px-4 md:px-8">
       {/* If sidebar links need active selection, review ../scripts/activelinkselection.ts before adding that behavior. */}
       <aside
-        className="sticky top-[var(--site-header-height)] z-[var(--layer-sidebar)] hidden h-[calc(100dvh-var(--site-header-height))] basis-[248px] shrink-0 overflow-y-auto overscroll-y-contain border-r border-[var(--border)] bg-[var(--background)] pr-4 md:block"
+        className="sticky top-[var(--site-header-height)] z-[var(--layer-sidebar)] hidden h-[calc(100dvh-var(--site-header-height))] basis-[248px] shrink-0 overflow-y-auto overscroll-y-contain border-r border-[hsl(var(--border))] bg-[hsl(var(--background))] pr-4 md:block"
         aria-label="Sidebar navigation"
       >
         {sidebar}

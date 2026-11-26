@@ -601,7 +601,7 @@ export function RichTextEditor({
             const text = event.clipboardData.getData('text/plain').replace(/\s+/g, ' ').trim();
             document.execCommand('insertText', false, text);
           }}
-          className="mb-5 min-h-12 w-full border-0 bg-transparent px-0 font-serif text-4xl font-medium leading-tight tracking-tight text-slate-700 outline-none empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)]"
+          className="mb-5 min-h-12 w-full border-0 bg-transparent px-0 font-serif text-4xl font-medium leading-tight tracking-tight text-foreground outline-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)]"
         />
       )}
       <EditorSurface
@@ -610,7 +610,7 @@ export function RichTextEditor({
         placeholder={placeholder}
         empty={!html.trim()}
         style={editorStyle}
-        className={`${styles.editor} min-h-0 w-full border-0 bg-transparent px-0 font-serif text-[20px] font-medium leading-8 text-slate-600 outline-none empty:before:text-slate-300 empty:before:content-[attr(data-placeholder)] ${className}`}
+        className={`${styles.editor} min-h-0 w-full border-0 bg-transparent px-0 font-serif text-[20px] font-medium leading-8 text-muted-foreground outline-none empty:before:text-muted-foreground empty:before:content-[attr(data-placeholder)] ${className}`}
         onInput={(event) => {
           publishChange(readEditorHtml(event.currentTarget));
           requestAnimationFrame(updateSlashMenu);
@@ -633,20 +633,20 @@ export function RichTextEditor({
         />
       )}
       {slashMenu && (
-        <div data-slash-menu style={{ position: 'fixed', top: slashMenu.top, left: slashMenu.left }} className="z-50 w-56 border border-slate-200 bg-white p-1 shadow-lg">
+        <div data-slash-menu style={{ position: 'fixed', top: slashMenu.top, left: slashMenu.left }} className="z-50 w-56 border border-border bg-background p-1 shadow-lg">
           {filteredSlashOptions.map((option, index) => (
-            <Button key={option.id} variant="text" size="sm" type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => handleSlashAction(option.id)} className={`block w-full rounded px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 ${index === activeSlashIndex ? 'bg-slate-100' : ''}`}>
+            <Button key={option.id} variant="text" size="sm" type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => handleSlashAction(option.id)} className={`block w-full rounded px-3 py-2 text-left text-sm text-foreground hover:bg-muted ${index === activeSlashIndex ? 'bg-muted' : ''}`}>
               {option.label}
             </Button>
           ))}
-          {!filteredSlashOptions.length && <div className="px-3 py-2 text-sm text-slate-500">No blocks found</div>}
+          {!filteredSlashOptions.length && <div className="px-3 py-2 text-sm text-muted-foreground">No blocks found</div>}
         </div>
       )}
       {videoMenu && (
-        <div className="absolute right-0 top-2 z-50 w-80 border border-slate-200 bg-white p-3 shadow-lg">
+        <div className="absolute right-0 top-2 z-50 w-80 border border-border bg-background p-3 shadow-lg">
           <div className="mb-3 flex gap-2">
             {(['youtube', 'vimeo'] as const).map((provider) => (
-              <Button key={provider} variant="text" size="sm" type="button" onClick={() => setVideoProvider(provider)} className={videoProvider === provider ? 'bg-blue-50 text-blue-700' : ''}>{provider}</Button>
+              <Button key={provider} variant="text" size="sm" type="button" onClick={() => setVideoProvider(provider)} className={videoProvider === provider ? 'bg-informatic-50 text-informatic' : ''}>{provider}</Button>
             ))}
           </div>
           <div className="flex gap-2">

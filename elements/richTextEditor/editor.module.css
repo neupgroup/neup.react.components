@@ -7,7 +7,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  color: rgb(203 213 225);
+  color: hsl(var(--border));
   content: attr(data-placeholder);
   pointer-events: none;
 }
@@ -36,14 +36,14 @@
 }
 
 .editor a {
-  color: rgb(37 99 235);
+  color: hsl(var(--primary));
   text-decoration: underline;
   text-underline-offset: 0.18em;
 }
 
 .editor mark {
   border-radius: 0.18em;
-  background: rgb(254 240 138);
+  background: var(--warning-100);
   color: inherit;
   box-decoration-break: clone;
   padding: 0.08em 0.1em 0.12em;
@@ -51,14 +51,14 @@
 }
 
 .editor h2 {
-  color: rgb(15 23 42);
+  color: hsl(var(--foreground));
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 2.25rem;
 }
 
 .editor h3 {
-  color: rgb(15 23 42);
+  color: hsl(var(--foreground));
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.9rem;
@@ -86,9 +86,9 @@
 }
 
 .editor aside[data-callout-type] {
-  border-left: 4px solid rgb(37 99 235);
-  background: rgb(239 246 255);
-  color: rgb(30 41 59);
+  border-left: 4px solid hsl(var(--primary));
+  background: hsl(var(--accent));
+  color: hsl(var(--foreground));
   padding: 0.9rem 1rem;
 }
 
@@ -97,18 +97,18 @@
 }
 
 .editor aside[data-callout-type="warning"] {
-  border-left-color: rgb(217 119 6);
-  background: rgb(255 251 235);
+  border-left-color: var(--warning);
+  background: var(--warning-100);
 }
 
 .editor aside[data-callout-type="error"] {
-  border-left-color: rgb(220 38 38);
-  background: rgb(254 242 242);
+  border-left-color: var(--danger);
+  background: var(--danger-100);
 }
 
 .editor aside[data-callout-type="caution"] {
-  border-left-color: rgb(202 138 4);
-  background: rgb(254 252 232);
+  border-left-color: var(--warning);
+  background: var(--warning-100);
 }
 
 .editor [data-editor-block="image"],
@@ -123,16 +123,16 @@
 }
 
 .editor [data-editor-block="businessblocks"] {
-  border: 1px solid rgb(203 213 225);
+  border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
-  background: rgb(255 255 255);
+  background: hsl(var(--background));
   box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
   padding: 1rem;
 }
 
 .editor [data-editor-block="businessblocks"] > p:first-child {
   margin: 0 0 0.45rem;
-  color: rgb(37 99 235);
+  color: hsl(var(--primary));
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.72rem;
   font-weight: 800;
@@ -151,7 +151,7 @@
 
 .editor [data-editor-block="businessblocks"] > p:not(:first-child) {
   margin: 0.45rem 0 0;
-  color: rgb(71 85 105);
+  color: hsl(var(--muted-foreground));
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.98rem;
   font-weight: 500;
@@ -171,10 +171,10 @@
 .editor [data-editor-block="businessblocks"] > ul > li {
   min-height: 2.25rem;
   margin-top: 0;
-  border: 1px solid rgb(226 232 240);
+  border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
-  background: rgb(248 250 252);
-  color: rgb(51 65 85);
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.86rem;
   font-weight: 700;
@@ -187,7 +187,7 @@
   grid-template-columns: 5.25rem minmax(0, 1fr) auto;
   align-items: center;
   gap: 1.6rem;
-  border-color: rgb(226 232 240);
+  border-color: hsl(var(--border));
   border-radius: 0.75rem;
   box-shadow: 0 16px 36px rgb(15 23 42 / 0.08);
   font-family: inherit;
@@ -200,8 +200,8 @@
   height: 4.25rem;
   place-items: center;
   border-radius: 0.75rem;
-  background: rgb(239 246 255);
-  color: rgb(29 78 216);
+  background: hsl(var(--accent));
+  color: hsl(var(--primary));
 }
 
 .editor [data-contact-icon]::before {
@@ -212,13 +212,13 @@
 
 .editor [data-contact-content] {
   min-width: 0;
-  border-left: 1px solid rgb(203 213 225);
+  border-left: 1px solid hsl(var(--border));
   padding-left: 1.6rem;
 }
 
 .editor [data-contact-content] > h3 {
   margin: 0;
-  color: rgb(15 23 42);
+  color: hsl(var(--foreground));
   font-family: inherit;
   font-size: 1.35rem;
   font-weight: 800;
@@ -227,7 +227,7 @@
 
 .editor [data-contact-content] > p {
   margin: 0.55rem 0 0;
-  color: rgb(71 85 105);
+  color: hsl(var(--muted-foreground));
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
@@ -247,7 +247,7 @@
   align-items: center;
   gap: 0.55rem;
   margin: 0;
-  color: rgb(51 65 85);
+  color: hsl(var(--foreground));
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 650;
@@ -256,7 +256,7 @@
 }
 
 .editor [data-contact-method]::before {
-  color: rgb(29 78 216);
+  color: hsl(var(--primary));
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 1rem;
   line-height: 1;
@@ -283,8 +283,8 @@
   justify-content: center;
   gap: 0.7rem;
   border-radius: 0.5rem;
-  background: rgb(239 246 255);
-  color: rgb(29 78 216);
+  background: hsl(var(--accent));
+  color: hsl(var(--primary));
   font-family: inherit;
   font-size: 1rem;
   font-weight: 800;
@@ -302,7 +302,7 @@
 
 .editor [data-contact-action] > p {
   margin: 0;
-  color: rgb(71 85 105);
+  color: hsl(var(--muted-foreground));
   font-family: inherit;
   font-size: 0.85rem;
   font-weight: 650;

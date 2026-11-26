@@ -40,7 +40,7 @@ export function DigitalClock({
       >
         {displayHour}
       </button>
-      <span aria-hidden="true" className="text-4xl font-medium text-slate-500">:</span>
+      <span aria-hidden="true" className="text-4xl font-medium text-muted-foreground">:</span>
       <button
         type="button"
         onClick={onMinuteClick}
@@ -50,14 +50,14 @@ export function DigitalClock({
         {displayMinute}
       </button>
       {period && (
-        <div className="ml-1 flex flex-col overflow-hidden rounded-lg border border-slate-300 bg-white text-xs font-semibold">
+        <div className="ml-1 flex flex-col overflow-hidden rounded-lg border border-border bg-background text-xs font-semibold">
           {(["AM", "PM"] as const).map((value) => (
             <button
               key={value}
               type="button"
               aria-pressed={period === value}
               onClick={() => onPeriodChange?.(value)}
-              className={`px-2.5 py-2 transition-colors ${period === value ? "bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}
+              className={`px-2.5 py-2 transition-colors ${period === value ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
             >
               {value}
             </button>

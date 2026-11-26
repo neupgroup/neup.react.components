@@ -161,18 +161,18 @@ export function DateTimePicker({
           margin: "auto",
           boxSizing: "border-box",
           borderRadius: 16,
-          border: "1px solid #E2E8F0",
-          backgroundColor: "#FFFFFF",
+          border: "1px solid hsl(var(--border))",
+          backgroundColor: "hsl(var(--popover))",
           padding: 24,
           boxShadow: "0 24px 64px rgba(15, 23, 42, 0.28)",
         }}
       >
       <div className="mb-5 flex items-start justify-between">
         <div>
-          <p className="text-lg font-semibold text-[#111827]">
+          <p className="text-lg font-semibold text-foreground">
             {kind === "deadline" ? "Deadline" : "When"}
           </p>
-          <p className="mt-1 text-sm text-[#64748B]">
+          <p className="mt-1 text-sm text-muted-foreground">
             {step === "date" ? "Choose a date from the calendar" : "Choose a time"}
           </p>
         </div>
@@ -180,7 +180,7 @@ export function DateTimePicker({
           type="button"
           onClick={onClose}
           aria-label="Close picker"
-          className="rounded-full p-2 text-[#64748B] transition-colors hover:bg-[#F1F5F9] hover:text-[#111827]"
+          className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <X className="h-4 w-4" />
         </button>
@@ -193,25 +193,25 @@ export function DateTimePicker({
               type="button"
               aria-label="Previous month"
               onClick={() => setMonth((value) => new Date(value.getFullYear(), value.getMonth() - 1, 1))}
-              className="rounded-xl p-2.5 text-[#475569] transition-colors hover:bg-[#F1F5F9]"
+              className="rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-muted"
             >
               <ArrowLeft className="h-4 w-4" />
             </button>
-            <p className="text-base font-semibold text-[#111827]">
+            <p className="text-base font-semibold text-foreground">
               {month.toLocaleDateString(undefined, { month: "long", year: "numeric" })}
             </p>
             <button
               type="button"
               aria-label="Next month"
               onClick={() => setMonth((value) => new Date(value.getFullYear(), value.getMonth() + 1, 1))}
-              className="rounded-xl p-2.5 text-[#475569] transition-colors hover:bg-[#F1F5F9]"
+              className="rounded-xl p-2.5 text-muted-foreground transition-colors hover:bg-muted"
             >
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-7 gap-1 text-center">
             {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-              <span key={`${day}-${index}`} className="py-1.5 text-xs font-semibold text-[#94A3B8]">
+              <span key={`${day}-${index}`} className="py-1.5 text-xs font-semibold text-muted-foreground">
                 {day}
               </span>
             ))}
@@ -234,14 +234,14 @@ export function DateTimePicker({
                     setDate(dateValue);
                     setStep("time");
                   }}
-                  className={`h-10 rounded-lg text-sm transition-colors hover:bg-[#EFF6FF] ${date === dateValue ? "bg-[#4F9CF9] font-semibold text-white hover:bg-[#3B82F6]" : "text-[#334155]"}`}
+                  className={`h-10 rounded-lg text-sm transition-colors hover:bg-accent ${date === dateValue ? "bg-primary font-semibold text-primary-foreground hover:bg-primary" : "text-foreground"}`}
                 >
                   {day}
                 </button>
               );
             })}
           </div>
-          <div className="mt-5 flex items-center justify-between gap-2 border-t border-[#E2E8F0] pt-5">
+          <div className="mt-5 flex items-center justify-between gap-2 border-t border-border pt-5">
             <button
               type="button"
               disabled={!date}
@@ -250,14 +250,14 @@ export function DateTimePicker({
                 if (onRemoveDate) onRemoveDate(time);
                 else onComplete("", time);
               }}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
             >
               Remove date
             </button>
             <button
               type="button"
               onClick={() => setStep("time")}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-[#4F9CF9] hover:bg-[#EFF6FF] hover:text-[#3B82F6]"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-primary hover:bg-accent hover:text-primary"
             >
               Choose time
             </button>
@@ -266,7 +266,7 @@ export function DateTimePicker({
       ) : (
         <div className="space-y-5">
           {date && (
-            <p className="rounded-xl bg-[#F8FAFC] px-4 py-3 text-sm font-medium text-[#475569]">
+            <p className="rounded-xl bg-muted px-4 py-3 text-sm font-medium text-muted-foreground">
               {new Date(`${date}T00:00:00`).toLocaleDateString(undefined, {
                 weekday: "long",
                 month: "long",
@@ -281,21 +281,21 @@ export function DateTimePicker({
               onClick={() => setClockMode("hour")}
               aria-label="Choose hour"
               aria-pressed={clockMode === "hour"}
-              className={`rounded-xl px-3 py-3 text-4xl font-medium tabular-nums transition-colors ${clockMode === "hour" ? "bg-[#4F9CF9] text-white ring-2 ring-[#BFDBFE]" : "bg-[#F1F5F9] text-[#334155] hover:bg-[#E2E8F0]"}`}
+              className={`rounded-xl px-3 py-3 text-4xl font-medium tabular-nums transition-colors ${clockMode === "hour" ? "bg-primary text-primary-foreground ring-2 ring-ring" : "bg-muted text-foreground hover:bg-muted"}`}
             >
               {selectedHour === null ? "--" : String(selectedHour).padStart(2, "0")}
             </button>
-            <span className="text-4xl font-medium text-[#64748B]">:</span>
+            <span className="text-4xl font-medium text-muted-foreground">:</span>
             <button
               type="button"
               onClick={() => setClockMode("minute")}
               aria-label="Choose minute"
               aria-pressed={clockMode === "minute"}
-              className={`rounded-xl px-3 py-3 text-4xl font-medium tabular-nums transition-colors ${clockMode === "minute" ? "bg-[#4F9CF9] text-white ring-2 ring-[#BFDBFE]" : "bg-[#F1F5F9] text-[#334155] hover:bg-[#E2E8F0]"}`}
+              className={`rounded-xl px-3 py-3 text-4xl font-medium tabular-nums transition-colors ${clockMode === "minute" ? "bg-primary text-primary-foreground ring-2 ring-ring" : "bg-muted text-foreground hover:bg-muted"}`}
             >
               {selectedMinute === null ? "--" : String(selectedMinute).padStart(2, "0")}
             </button>
-            <div className="ml-1 flex flex-col overflow-hidden rounded-lg border border-[#CBD5E1] bg-white text-xs font-semibold">
+            <div className="ml-1 flex flex-col overflow-hidden rounded-lg border border-border bg-background text-xs font-semibold">
               {(["AM", "PM"] as const).map((value) => (
                 <button
                   key={value}
@@ -305,7 +305,7 @@ export function DateTimePicker({
                     setPeriod(value);
                     updateTime(selectedHour, selectedMinute, value);
                   }}
-                  className={`px-2.5 py-2 transition-colors ${period === value ? "bg-[#4F9CF9] text-white" : "text-[#475569] hover:bg-[#F1F5F9]"}`}
+                  className={`px-2.5 py-2 transition-colors ${period === value ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
                 >
                   {value}
                 </button>
@@ -314,7 +314,7 @@ export function DateTimePicker({
           </div>
 
           {renderClock ? renderClock(clockProps) : <AnalogueClock {...clockProps} />}
-          <p className="text-center text-xs font-medium text-[#64748B]">
+          <p className="text-center text-xs font-medium text-muted-foreground">
             {clockMode === "hour" ? "Select hour" : "Select minutes"}
           </p>
           <button
@@ -330,15 +330,15 @@ export function DateTimePicker({
               else onComplete(date, "");
               setStep("date");
             }}
-            className="mx-auto block rounded-lg px-3 py-2 text-sm font-medium text-[#64748B] hover:bg-[#F1F5F9] disabled:cursor-not-allowed disabled:opacity-50"
+            className="mx-auto block rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted disabled:cursor-not-allowed disabled:opacity-50"
           >
             Remove time
           </button>
-          <div className="flex items-center justify-between border-t border-[#E2E8F0] pt-5">
+          <div className="flex items-center justify-between border-t border-border pt-5">
             <button
               type="button"
               onClick={() => setStep("date")}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-[#4F9CF9] hover:bg-[#EFF6FF] hover:text-[#3B82F6]"
+              className="rounded-lg px-3 py-2 text-sm font-medium text-primary hover:bg-accent hover:text-primary"
             >
               Back to calendar
             </button>
@@ -347,7 +347,7 @@ export function DateTimePicker({
               type="button"
               disabled={!date && !time}
               onClick={() => onComplete(date, time)}
-              className="inline-flex h-11 items-center rounded-xl bg-[#4F9CF9] px-6 text-sm font-semibold text-white hover:bg-[#3B82F6] disabled:opacity-50"
+              className="inline-flex h-11 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground hover:bg-primary disabled:opacity-50"
             >
               Done
             </Button>

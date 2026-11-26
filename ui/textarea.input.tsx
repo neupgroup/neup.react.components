@@ -32,7 +32,7 @@ const TextareaInput = React.forwardRef<HTMLTextAreaElement, TextareaInputProps>(
           onKeyDown?.(event);
         }}
         className={cn(
-          "w-full resize-none border-0 bg-transparent p-0 text-base leading-7 text-[#64748B] outline-none placeholder:text-[#94A3B8] focus-visible:outline-none",
+          "w-full resize-none border-0 bg-transparent p-0 text-base leading-7 text-muted-foreground outline-none placeholder:text-muted-foreground focus-visible:outline-none",
           className
         )}
       />

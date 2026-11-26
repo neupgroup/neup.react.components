@@ -35,7 +35,7 @@ const LinedInput = React.forwardRef<
   LinedInputProps
 >((props, ref) => {
   const linedClassName = cn(
-    "w-full border-0 bg-transparent p-0 text-lg leading-6 text-[#111827] outline-none placeholder:text-[#94A3B8] focus-visible:outline-none sm:text-xl",
+    "w-full border-0 bg-transparent p-0 text-lg leading-6 text-foreground outline-none placeholder:text-muted-foreground focus-visible:outline-none sm:text-xl",
     props.className
   );
 
