@@ -130,7 +130,8 @@ export function DateTimePicker({
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 100,
+        zIndex: 1000,
+        pointerEvents: "auto",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -155,6 +156,7 @@ export function DateTimePicker({
           width: "min(384px, 100%)",
           maxWidth: 384,
           maxHeight: "calc(100dvh - 32px)",
+          pointerEvents: "auto",
           overflowY: "auto",
           margin: "auto",
           boxSizing: "border-box",
