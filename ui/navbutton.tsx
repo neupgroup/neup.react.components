@@ -39,12 +39,12 @@ const NavButton = React.forwardRef<HTMLButtonElement, NavButtonProps>(
     const isCurrent = active ?? isActive ?? false
     const navigationClassName = cn(navButtonVariants({ active: isCurrent, className }), isCurrent && 'active')
     if (href) {
-      return <LinkButton href={href} variant={variant ?? 'plain'} className={navigationClassName} {...(props as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />
+      return <LinkButton href={href} variant={variant ?? 'text'} className={navigationClassName} {...(props as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)} />
     }
     return (
       <Button
         ref={ref}
-        variant={variant ?? 'plain'}
+        variant={variant ?? 'text'}
         data-active={isCurrent || undefined}
         className={navigationClassName}
         {...props}

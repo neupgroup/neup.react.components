@@ -19,8 +19,8 @@ type LinkButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
   postIcon?: ReactNode;
 } & ButtonStyleProps;
 
-export function LinkButton({ className, variant = 'tinted', convey = 'none', size = 'default', alignment = 'center', preIcon, postIcon, children, ...props }: LinkButtonProps) {
-  return <Link {...props} className={buttonVariants({ variant, convey, size, alignment, className: `pointer-events-auto cursor-pointer ${className ?? ''}` })}>
+export function LinkButton({ className, variant = 'outlined', size = 'default', alignment = 'center', preIcon, postIcon, children, ...props }: LinkButtonProps) {
+  return <Link {...props} className={buttonVariants({ variant, size, alignment, className: `pointer-events-auto cursor-pointer ${className ?? ''}` })}>
     {preIcon}
     {children}
     {postIcon}

@@ -12,7 +12,7 @@ const requiredPackages = [
 
 export type NavLinkProps = React.ComponentPropsWithoutRef<typeof Link> & ButtonStyleProps & { active?: boolean };
 
-export function NavLink({ active = false, className, variant = 'plain', ...props }: NavLinkProps) {
+export function NavLink({ active = false, className, variant = 'text', ...props }: NavLinkProps) {
   return (
     <Link
       {...props}

@@ -17,6 +17,7 @@ import {
   useToast,
   type ToastState,
   type ToastConvey,
+  type ToastActionConvey,
   type ToasterToast,
 } from '@neup/core/hooks/useToast'
 
@@ -397,6 +398,14 @@ function getToastConvey(
   return state ?? 'info'
 }
 
+// Select the semantic button variant used for a toast action.
+function getToastActionVariant(convey: ToastActionConvey) {
+  if (convey === 'danger') return 'sem.danger' as const;
+  if (convey === 'warning') return 'sem.warning' as const;
+  if (convey === 'success') return 'sem.success' as const;
+  return 'sem.informative' as const;
+}
+
 function VisualToast({
   toast,
   index,
@@ -672,12 +681,7 @@ function VisualToast({
                   ([buttonName, convey, destination], actionIndex) => (
                     <ToastButton
                       key={`${buttonName}-${actionIndex}`}
-                      variant={
-                        visibleActions.length === 1 || actionIndex === 1
-                          ? 'outlined'
-                          : 'tinted'
-                      }
-                      convey={convey}
+                      variant={getToastActionVariant(convey)}
                       htmlType="button"
                       size="sm"
                       className="h-7 px-2 text-xs"

@@ -95,7 +95,7 @@ function SidebarNavigation({ groups, pathname, onLinkClick }: {
               key={href}
               href={href}
               active={activeHref === href}
-              variant="plain"
+              variant="text"
               className="h-auto min-h-9 w-full gap-2 rounded-md px-3 py-2 text-sm font-semibold"
               target={external ? '_blank' : undefined}
               rel={external ? 'noopener noreferrer' : undefined}
@@ -141,7 +141,7 @@ export default function HeaderSidebarLayout({ children, sidebarlinks, pofileBarI
       <header className="app-shell-header sticky top-0 z-40 flex h-16 items-center bg-primary-1000">
         <div className="mx-auto flex w-full max-w-[1440px] items-center px-4 sm:px-6 md:px-8">
           <div className="flex items-center gap-4 lg:hidden">
-            <Button variant="plain" size="icon" onClick={toggleMobileMenu} aria-label="Toggle navigation" aria-expanded={isMobileMenuOpen}>
+            <Button variant="text" size="icon" onClick={toggleMobileMenu} aria-label="Toggle navigation" aria-expanded={isMobileMenuOpen}>
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>

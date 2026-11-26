@@ -343,7 +343,7 @@ export function DateTimePicker({
               Back to calendar
             </button>
             <Button
-              variant="plain"
+              variant="text"
               type="button"
               disabled={!date && !time}
               onClick={() => onComplete(date, time)}

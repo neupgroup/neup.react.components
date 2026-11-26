@@ -29,7 +29,7 @@ export function StepperControls({
     <div className={`flex h-10 items-center justify-between rounded-md border border-border bg-background p-0 text-foreground ${className}`}>
       <Button
         htmlType="button"
-        variant="plain"
+        variant="text"
         size="icon"
         onClick={onDecrease}
         aria-label={`Decrease ${label}`}
@@ -39,7 +39,7 @@ export function StepperControls({
       </Button>
       <Button
         htmlType="button"
-        variant="plain"
+        variant="text"
         onClick={onValueClick}
         aria-label={`${label}: ${value}`}
         className="h-10 min-w-0 flex-1 truncate px-2 text-center text-sm font-medium tabular-nums text-foreground hover:bg-muted"
@@ -48,7 +48,7 @@ export function StepperControls({
       </Button>
       <Button
         htmlType="button"
-        variant="plain"
+        variant="text"
         size="icon"
         onClick={onIncrease}
         aria-label={`Increase ${label}`}
