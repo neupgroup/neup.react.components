@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 
 // External packages required by this component or page.
 const requiredPackages = [
@@ -12,6 +15,11 @@ export type SidebarV1Props = {
 
 // Render a page with the v1 sidebar and its main content area.
 export function SidebarV1({ sidebar, children }: SidebarV1Props) {
+  const searchParams = useSearchParams();
+  const isEmbedded = searchParams.get('embedded') === 'true' && Boolean(searchParams.get('app')?.trim());
+  if (isEmbedded) {
+    return <main id="main-content" className="relative z-[var(--layer-content)] min-w-0 flex-1 p-6" tabIndex={-1}>{children}</main>;
+  }
   return (
     <div className="mx-auto flex min-h-[calc(100dvh-var(--site-header-height))] w-full max-w-[1440px] items-start px-4 md:px-8">
       {/* If sidebar links need active selection, review ../scripts/activelinkselection.ts before adding that behavior. */}

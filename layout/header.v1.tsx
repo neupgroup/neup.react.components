@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { Header } from "@neup/components/elements/header/header";
 
 // External packages required by this component or page.
@@ -11,5 +14,7 @@ type HeaderV1Props = {
 };
 
 export function HeaderV1({ children }: HeaderV1Props) {
+  const searchParams = useSearchParams();
+  if (searchParams.get('embedded') === 'true' && searchParams.get('app')?.trim()) return null;
   return <Header>{children}</Header>;
 }

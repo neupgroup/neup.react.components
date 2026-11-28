@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { cn } from '@neup/core/utils';
 import { Link } from '@neup/components/ui/link';
 import { LetterImage } from '@neup/components/ui/letterImage';
@@ -69,6 +69,8 @@ function ProfileBar({ profileBarInfo }: { profileBarInfo: HeaderLimitedProfileBa
 // Create a compact header with a fixed structure and configurable app navigation.
 export default function HeaderLimitedV1({ appName, appNameHref, appLogo, navLinks, profileBarInfo, className }: HeaderLimitedV1Props) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  if (searchParams.get('embedded') === 'true' && searchParams.get('app')?.trim()) return null;
   return (
     <Header className={cn('border-[hsl(var(--border))] bg-[hsl(var(--background))]', className)}>
       <div className="flex h-full w-full items-center gap-6">

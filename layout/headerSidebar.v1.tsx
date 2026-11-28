@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ComponentType, type ReactNode } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ExternalLink, Menu, X } from 'lucide-react';
 import { cn } from '@neup/core/utils';
 import RootLayout from '@neup/components/layout/RootLayout';
@@ -115,6 +115,8 @@ function SidebarNavigation({ groups, pathname, onLinkClick }: {
 // Extend RootLayout with the app's unchanged header, sidebar, and content geometry.
 export default function HeaderSidebarLayout({ children, sidebarlinks, pofileBarInfo, headerLinks }: HeaderSidebarLayoutProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const isEmbedded = searchParams.get('embedded') === 'true' && Boolean(searchParams.get('app')?.trim());
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const groups = groupSidebarLinks(sidebarlinks);
 
@@ -138,6 +140,12 @@ export default function HeaderSidebarLayout({ children, sidebarlinks, pofileBarI
 
   return (
     <RootLayout>
+      {isEmbedded ? (
+        <main className="min-h-screen min-w-0 p-6 md:p-10">
+          <div className="min-w-0 w-full">{children}</div>
+        </main>
+      ) : (
+        <>
       <header className="app-shell-header sticky top-0 z-40 flex h-16 items-center bg-primary-1000">
         <div className="mx-auto flex w-full max-w-[1440px] items-center px-4 sm:px-6 md:px-8">
           <div className="flex items-center gap-4 lg:hidden">
@@ -183,6 +191,8 @@ export default function HeaderSidebarLayout({ children, sidebarlinks, pofileBarI
           <div className="min-w-0 w-full">{children}</div>
         </main>
       </div>
+        </>
+      )}
     </RootLayout>
   );
 }
