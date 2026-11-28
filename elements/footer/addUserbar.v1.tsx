@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { Userbar } from '@neup/components/element/userbar';
+import { Userbar } from '@/@neup/components/elements/userbar';
 import { Footer } from './footer';
 
 export type FooterUserbarInfo = {

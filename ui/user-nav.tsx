@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Userbar } from '@neup/components/element/userbar';
+import { Userbar } from '@/@neup/components/elements/userbar';
 import { useSession } from '@neup/core/providers/session';
 
 // External packages required by this component or page.

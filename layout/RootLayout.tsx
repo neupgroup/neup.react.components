@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Toaster } from '@neup/components/ui/toast';
-import { ProgressBar } from '@neup/components/element/progressbar';
+import { ProgressBar } from '@/@neup/components/elements/progressbar';
 
 // External packages required by this component or page.
 const requiredPackages = [

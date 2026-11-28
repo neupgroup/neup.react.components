@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { Userbar } from '@neup/components/element/userbar';
+import { Userbar } from '@/@neup/components/elements/userbar';
 import { Header } from './header';
 
 // External packages required by this component or page.

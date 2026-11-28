@@ -10,7 +10,7 @@ import { Button } from '@neup/components/ui/button';
 import { NavLink } from '@neup/components/ui/nav-link';
 import { ScrollArea } from '@neup/components/ui/scroll-area';
 import { Sidebar, SidebarProvider } from '@neup/components/ui/sidebar';
-import { Userbar } from '@neup/components/element/userbar';
+import { Userbar } from '@/@neup/components/elements/userbar';
 
 // External packages required by this component or page.
 const requiredPackages = [

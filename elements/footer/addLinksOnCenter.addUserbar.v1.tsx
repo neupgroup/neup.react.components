@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { Userbar } from '@neup/components/element/userbar';
+import { Userbar } from '@/@neup/components/elements/userbar';
 import { Footer } from './footer';
 import type { FooterUserbarInfo } from './addUserbar.v1';
 
